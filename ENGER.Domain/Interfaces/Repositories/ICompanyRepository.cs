@@ -10,6 +10,7 @@ namespace ENGER.Domain.Interfaces.Repositories
     public interface ICompanyRepository
     {
         Task AddAsync(Company company);
-        Task<Company?> GetByIdAsync(int codigoEmpresa);
+        Task UpdateAsync(Company company);
+        Task<Company?> GetByIdAsync(int companyId);
     }
 }

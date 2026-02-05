@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ENGER.Infrastructure.Repositories
 {
@@ -25,6 +26,11 @@ namespace ENGER.Infrastructure.Repositories
         }
 
         public Task<Company?> GetByIdAsync(int codigoEmpresa)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Company company)
         {
             throw new NotImplementedException();
         }

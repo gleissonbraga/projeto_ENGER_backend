@@ -1,4 +1,5 @@
-﻿using ENGER.Application.UseCases.Company.Create;
+﻿using ENGER.Application.DTOs.Company;
+using ENGER.Application.UseCases.Company.Create;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace ENGER.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCompanyCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateCompanyRequest command)
         {
             // Chama o Use Case
             var id = await _createCompanyUseCase.ExecuteAsync(command);

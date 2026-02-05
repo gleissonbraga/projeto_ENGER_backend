@@ -22,6 +22,7 @@ namespace ENGER.Infrastructure.DependencyInjection
                 options.UseNpgsql(configuration.GetConnectionString("Default")));
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<ISubscriptionTypeRepository, SubscriptionTypeRepository>();
 
             return services;
         }
