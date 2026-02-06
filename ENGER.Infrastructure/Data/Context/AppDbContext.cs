@@ -12,6 +12,7 @@ namespace ENGER.Infrastructure.Data.Context
         public DbSet<Company> Companies => Set<Company>();
         public DbSet<Subscription> Subscriptions => Set<Subscription>();
         public DbSet<SubscriptionType> SubscriptionTypes => Set<SubscriptionType>();
+        public DbSet<User> Users => Set<User>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -23,6 +23,8 @@ namespace ENGER.Infrastructure.DependencyInjection
 
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<ISubscriptionTypeRepository, SubscriptionTypeRepository>();
+            services.AddScoped<ISubscriptionRepository, SubscriptionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }

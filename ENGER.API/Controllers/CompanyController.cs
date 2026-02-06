@@ -17,9 +17,8 @@ namespace ENGER.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCompanyRequest command)
+        public async Task<IActionResult> Create([FromBody] CompanyRequestDTO command)
         {
-            // Chama o Use Case
             var id = await _createCompanyUseCase.ExecuteAsync(command);
 
             // Retorna 201 Created com o ID gerado

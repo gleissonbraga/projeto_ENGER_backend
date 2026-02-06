@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ENGER.Domain.Interfaces.Repositories
 {
-    public interface ISubscriptionRepository
+    public interface IUserRepository
     {
-        Task<Guid> AddAsync(Subscription subscription);
-        Task UpdateAsync(Subscription subscription);
+        Task<User> AddAsync(User user);
+        Task UpdateAsync(User user);
         Task DeleteAsync(int id);
-        Task<Company?> GetByIdAsync(int subscriptionId);
+        Task<User?> GetByIdAsync(int userid);
     }
 }

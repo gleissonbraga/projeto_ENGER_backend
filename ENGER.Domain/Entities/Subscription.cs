@@ -16,18 +16,21 @@ namespace ENGER.Domain.Entities
         public Guid SubscriptionCode { get; set; }
         public DateTime ExpirationDate { get; set; }
         public Status StatusSubscription { get; set; }
-        public DateTime PaymentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
 
         public int TypeSubscriptionId { get; set; }
 
+        public virtual SubscriptionType SubscriptionType { get; private set; }
+
         protected Subscription() { }
 
-        public Subscription(Guid subscriptionCode, DateTime expirationDate, Status statusSubscription, DateTime paymentDate)
+        public Subscription(Guid subscriptionCode, DateTime expirationDate, Status statusSubscription, DateTime? paymentDate, int subscriptionTypeId)
         {
             SubscriptionCode = subscriptionCode;
             ExpirationDate = expirationDate;
             StatusSubscription = statusSubscription;
             PaymentDate = paymentDate;
+            TypeSubscriptionId = subscriptionTypeId;
         }
     }
 }

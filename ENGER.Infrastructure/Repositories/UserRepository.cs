@@ -6,35 +6,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace ENGER.Infrastructure.Repositories
 {
-    public class CompanyRepository : ICompanyRepository
+    internal class UserRepository : IUserRepository
     {
-        private readonly AppDbContext _context;
+        public readonly AppDbContext _context;
 
-        public CompanyRepository(AppDbContext context)
+        public UserRepository(AppDbContext context)
         {
             _context = context;
         }
-        public async Task<int> AddAsync(Company company)
+
+        public async Task<User> AddAsync(User user)
         {
-            await _context.Companies.AddAsync(company);
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            return company.CompanyId;
+            return user;
         }
 
-        public Task<Company?> GetByIdAsync(int codigoEmpresa)
+        public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Company company)
+        public Task<User?> GetByIdAsync(int userid)
         {
             throw new NotImplementedException();
         }
 
+        public Task UpdateAsync(User user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

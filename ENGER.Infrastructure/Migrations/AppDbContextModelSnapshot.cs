@@ -31,10 +31,6 @@ namespace ENGER.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CompanyId"));
 
-                    b.Property<int>("Admin")
-                        .HasColumnType("integer")
-                        .HasColumnName("ADMIN");
-
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(40)
@@ -109,7 +105,7 @@ namespace ENGER.Infrastructure.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("LOGRADOURO");
 
-                    b.Property<Guid>("SubscriptionCode")
+                    b.Property<Guid?>("SubscriptionCode")
                         .HasColumnType("uuid")
                         .HasColumnName("CD_ASSINATURA");
 
@@ -144,7 +140,7 @@ namespace ENGER.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("DT_VENCIMENTO");
 
-                    b.Property<DateTime>("PaymentDate")
+                    b.Property<DateTime?>("PaymentDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("DT_PAGAMENTO");
 
@@ -157,10 +153,15 @@ namespace ENGER.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("CD_CHAVE");
 
+                    b.Property<int>("SubscriptionTypeId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("TypeSubscriptionId")
                         .HasColumnType("integer");
 
                     b.HasKey("SubscriptionId");
+
+                    b.HasIndex("SubscriptionTypeId");
 
                     b.HasIndex("TypeSubscriptionId")
                         .IsUnique();
@@ -194,23 +195,97 @@ namespace ENGER.Infrastructure.Migrations
                     b.ToTable("TIPO_ASSINATURA", (string)null);
                 });
 
+            modelBuilder.Entity("ENGER.Domain.Entities.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_USUARIO");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+
+                    b.Property<int>("Admin")
+                        .HasColumnType("integer")
+                        .HasColumnName("ADMIN");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("EMAIL");
+
+                    b.Property<DateTime>("EntryDate")
+                        .HasMaxLength(50)
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ENTRADA");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)")
+                        .HasColumnName("SENHA");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasMaxLength(50)
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ATUALIZACAO");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("NM_USUARIO");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("USUARIOS", (string)null);
+                });
+
             modelBuilder.Entity("ENGER.Domain.Entities.Company", b =>
                 {
                     b.HasOne("ENGER.Domain.Entities.Subscription", null)
                         .WithOne()
                         .HasForeignKey("ENGER.Domain.Entities.Company", "SubscriptionCode")
                         .HasPrincipalKey("ENGER.Domain.Entities.Subscription", "SubscriptionCode")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("ENGER.Domain.Entities.Subscription", b =>
                 {
+                    b.HasOne("ENGER.Domain.Entities.SubscriptionType", "SubscriptionType")
+                        .WithMany()
+                        .HasForeignKey("SubscriptionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ENGER.Domain.Entities.SubscriptionType", null)
                         .WithOne()
                         .HasForeignKey("ENGER.Domain.Entities.Subscription", "TypeSubscriptionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("SubscriptionType");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.User", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Company", "Company")
+                        .WithMany("Users")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.Company", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

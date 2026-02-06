@@ -74,10 +74,6 @@ namespace ENGER.Infrastructure.Data.Mappings
             builder.Property(c => c.DateOfBirth)
               .HasColumnName("DT_NASCIMENTO");
 
-            builder.Property(c => c.Admin)
-              .HasColumnName("ADMIN")
-              .HasColumnType("integer");
-
             builder.Property(c => c.EntryDate)
                 .HasColumnName("DT_ENTRADA")
                 .IsRequired();
@@ -88,12 +84,13 @@ namespace ENGER.Infrastructure.Data.Mappings
 
             builder.Property(c => c.SubscriptionCode)
                 .HasColumnName("CD_ASSINATURA")
-                .IsRequired();
+                .IsRequired(false);
 
             builder.HasOne<Subscription>()
                 .WithOne()
                 .HasPrincipalKey<Subscription>(s => s.SubscriptionCode)
                 .HasForeignKey<Company>(c => c.SubscriptionCode)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
