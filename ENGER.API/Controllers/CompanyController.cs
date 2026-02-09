@@ -1,4 +1,5 @@
 ﻿using ENGER.Application.DTOs.Company;
+using ENGER.Application.Exceptions;
 using ENGER.Application.UseCases.Company.Create;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,19 @@ namespace ENGER.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CompanyRequestDTO command)
         {
-            var id = await _createCompanyUseCase.ExecuteAsync(command);
-
-            // Retorna 201 Created com o ID gerado
-            return CreatedAtAction(nameof(Create), new { id = id }, id);
+            try
+            {
+                CompanyResponseDTO objCompany = await _createCompanyUseCase.ExecuteAsync(command);
+                return Ok(objCompany);
+            }
+            catch (ApplicException err)
+            {
+                return BadRequest(new { errors = err.lstErrors });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Ocorreu um erro interno inesperado.", detail = ex.Message });
+            }
         }
     }
 }

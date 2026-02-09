@@ -11,6 +11,11 @@ namespace ENGER.Domain.Interfaces.Repositories
     {
         Task<int> AddAsync(Company company);
         Task UpdateAsync(Company company);
-        Task<Company?> GetByIdAsync(int companyId);
+        Task<Company?> GetByIdAsync(int intCompanyId);
+
+        Task<Company?> GetByReasonNameAsync(string strName);
+        Task<Company?> GetByCPFCNPJAsync(string strNumberRegistrations);
+        Task<Company?> GetByAddressEmailAsync(string strEmailAddress);
+        Task<Company?> GetByNumberIERGAsync(string strIERG);
     }
 }

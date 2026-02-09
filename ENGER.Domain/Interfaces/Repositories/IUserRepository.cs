@@ -13,5 +13,6 @@ namespace ENGER.Domain.Interfaces.Repositories
         Task UpdateAsync(User user);
         Task DeleteAsync(int id);
         Task<User?> GetByIdAsync(int userid);
+        Task<IEnumerable<User>> GetByCompanyIdAsync(int companyId);
     }
 }

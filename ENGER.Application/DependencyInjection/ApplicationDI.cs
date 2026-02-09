@@ -1,5 +1,6 @@
 ﻿using ENGER.Application.UseCases.Company.Create;
 using ENGER.Application.UseCases.SubscriptionType.Create;
+using ENGER.Application.UseCases.User.GetAll;
 using ENGER.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,6 +19,7 @@ namespace ENGER.Application.DependencyInjection
             // Usamos Scoped para que o UseCase viva durante o tempo da requisição HTTP
             services.AddScoped<CreateCompanyUseCase>();
             services.AddScoped<CreateSubscriptionTypeUsecase>();
+            services.AddScoped<GetAllUsersUseCase>();
 
             // Se você tiver outros, adiciona aqui embaixo:
             // services.AddScoped<GetCompanyByIdUseCase>();

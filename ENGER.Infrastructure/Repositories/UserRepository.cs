@@ -1,6 +1,7 @@
 ﻿using ENGER.Domain.Entities;
 using ENGER.Domain.Interfaces.Repositories;
 using ENGER.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,11 @@ namespace ENGER.Infrastructure.Repositories
         public Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<User>> GetByCompanyIdAsync(int companyId)
+        {
+            return await _context.Users.Where(x => x.CompanyId == companyId).ToListAsync();
         }
 
         public Task<User?> GetByIdAsync(int userid)
