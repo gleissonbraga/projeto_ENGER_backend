@@ -17,7 +17,7 @@ namespace ENGER.API.Controllers
             _createCompanyUseCase = createCompanyUseCase;
         }
 
-        [HttpPost]
+        [HttpPost("cadastro")]
         public async Task<IActionResult> Create([FromBody] CompanyRequestDTO command)
         {
             try

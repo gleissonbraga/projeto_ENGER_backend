@@ -19,7 +19,7 @@ namespace ENGER.Application.DependencyInjection
             // Usamos Scoped para que o UseCase viva durante o tempo da requisição HTTP
             services.AddScoped<CreateCompanyUseCase>();
             services.AddScoped<CreateSubscriptionTypeUsecase>();
-            services.AddScoped<GetAllUsersUseCase>();
+            services.AddScoped<CreateUsersUseCase>();
 
             // Se você tiver outros, adiciona aqui embaixo:
             // services.AddScoped<GetCompanyByIdUseCase>();

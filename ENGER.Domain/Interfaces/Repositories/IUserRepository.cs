@@ -12,7 +12,10 @@ namespace ENGER.Domain.Interfaces.Repositories
         Task<User> AddAsync(User user);
         Task UpdateAsync(User user);
         Task DeleteAsync(int id);
-        Task<User?> GetByIdAsync(int userid);
+        Task<User?> GetByIdAsync(int userid, int intCompanyId);
+        Task InactiveUser(User user);
+        Task ActiveUser(User user);
         Task<IEnumerable<User>> GetByCompanyIdAsync(int companyId);
+        Task<User> GetByEmail(string email, int companyId);
     }
 }

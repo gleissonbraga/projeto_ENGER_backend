@@ -68,11 +68,11 @@ namespace ENGER.Application.UseCases.Company.Create
             if (objVerifyReasonName != null)
                 errors.Add(new ValidationError("reasonName", "Nome Razão já cadastrada"));
             if (objVerifyIERG != null)
-                errors.Add(new ValidationError("reasonName", "Número de Inscrição já cadastrada"));
+                errors.Add(new ValidationError("resistrationNumber", "Número de Inscrição já cadastrada"));
             if (objVerifyCPFCNPJ != null)
-                errors.Add(new ValidationError("reasonName", "Número de Inscrição já cadastrada"));
+                errors.Add(new ValidationError("rGIeNumber", "Número de Inscrição já cadastrada"));
             if (objVerifyEmail != null)
-                errors.Add(new ValidationError("reasonName", "Email já cadastrado"));
+                errors.Add(new ValidationError("email", "Email já cadastrado"));
 
             if (errors.Count > 0)
                 throw new ApplicException(errors);

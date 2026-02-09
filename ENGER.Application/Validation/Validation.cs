@@ -49,5 +49,14 @@ namespace ENGER.Application.Validation
             if (!string.IsNullOrEmpty(value) && value.Length > max)
                 errors.Add(new ValidationError(fieldName, $"O campo deve ter no máximo {max} caracteres."));
         }
+
+        // valida admin
+        public static void MaxAdmin(short? value, string fieldName, List<ValidationError> errors)
+        {
+            if (value > 0 && value <= 7) return;
+
+            if (value < 0 && value > 7)
+                errors.Add(new ValidationError(fieldName, "O valor do campo admin esta incorreto"));
+        }
     }
 }
