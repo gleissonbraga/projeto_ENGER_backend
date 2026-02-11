@@ -1,0 +1,36 @@
+# Pastas de saída do .NET (essencial ignorar para não dar conflito com o Linux do container)
+bin/
+obj/
+
+# Arquivos de publicação
+publish/
+
+# Configurações de IDEs e ferramentas
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.doccache
+
+# Controle de versão
+.git/
+.gitignore
+
+# Arquivos de configuração de ambiente e segredos
+.env
+*.env
+!*.env.example
+secrets.json
+.aspnet/
+appsettings.Development.json
+
+# Docker e logs
+docker-compose*
+Dockerfile
+*.log
+
+# Outros
+node_modules/
+dist/
+temp/

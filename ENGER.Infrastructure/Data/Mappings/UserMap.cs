@@ -48,6 +48,11 @@ namespace ENGER.Infrastructure.Data.Mappings
                 .HasColumnName("DT_ATUALIZACAO")
                 .HasMaxLength(50);
 
+            builder.Property(c => c.Status)
+                .HasColumnName("STATUS")
+                .HasColumnType("integer")
+                .IsRequired(false);
+
             builder.HasOne(u => u.Company)
                 .WithMany(c => c.Users)
                 .HasForeignKey(u => u.CompanyId)

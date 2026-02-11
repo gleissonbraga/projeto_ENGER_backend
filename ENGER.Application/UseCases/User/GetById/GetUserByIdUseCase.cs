@@ -24,7 +24,7 @@ namespace ENGER.Application.UseCases.User.GetUserById
             Domain.Entities.User objUser = await _repository.GetByIdAsync(userId, intCompanyId);
 
             if (objUser == null)
-                throw new Exception("Usuário não encontrado");
+                throw new ApplicException("user", "Usuário não encontrado");
 
             UserResponseDTO userDTO = new UserResponseDTO
             (
@@ -33,7 +33,8 @@ namespace ENGER.Application.UseCases.User.GetUserById
                 objUser.Email,
                 (short)objUser.Admin,
                 objUser.EntryDate,
-                objUser.UpdateDate
+                objUser.UpdateDate,
+                (short)objUser.Status
             );
 
             return userDTO;

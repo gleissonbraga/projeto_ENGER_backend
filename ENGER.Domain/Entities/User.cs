@@ -18,13 +18,14 @@ namespace ENGER.Domain.Entities
         public Admin Admin { get; set; }
         public DateTime EntryDate { get; set; }
         public DateTime UpdateDate { get; set; }
+        public Status? Status { get; set; }
 
         public int CompanyId { get; set; }
         public Company Company { get; set; }
 
         protected User() { }
 
-        public User(string username, string email, string password, Admin admin, DateTime entryDate, DateTime updateDate, int companyId)
+        public User(string username, string email, string password, Admin admin, DateTime entryDate, DateTime updateDate, int companyId, Status status)
         {
             Username = username;
             Email = email;
@@ -33,6 +34,7 @@ namespace ENGER.Domain.Entities
             EntryDate = entryDate;
             UpdateDate = updateDate;
             CompanyId = companyId;
+            Status = status;
         }
     }
 }

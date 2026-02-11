@@ -22,7 +22,7 @@ namespace ENGER.Application.UseCases.User.GetAll
         {
             var users = await _repository.GetByCompanyIdAsync(companyId);
 
-            IEnumerable<UserResponseDTO> usersDTO = users.Select(x => new UserResponseDTO(x.UserId, x.Username, x.Email, (short)x.Admin, x.EntryDate, x.UpdateDate));
+            IEnumerable<UserResponseDTO> usersDTO = users.Select(x => new UserResponseDTO(x.UserId, x.Username, x.Email, (short)x.Admin, x.EntryDate, x.UpdateDate, (short)x.Status));
 
             return usersDTO;
         }

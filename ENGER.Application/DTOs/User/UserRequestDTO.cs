@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace ENGER.Application.DTOs.User
 {
-    public record UserRequestDTO(string username, string email, string password, short? admin);
+    public record UserRequestDTO(string username, string email, string password, short? admin, short? status);
 }

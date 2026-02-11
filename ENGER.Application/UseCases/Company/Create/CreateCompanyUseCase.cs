@@ -84,11 +84,11 @@ namespace ENGER.Application.UseCases.Company.Create
 
             int companyId = await _repository.AddAsync(company);
 
-            Domain.Entities.User user = new Domain.Entities.User(request.username, request.emailUser, request.password, Admin.Master, DateTime.UtcNow, DateTime.UtcNow, companyId);
+            Domain.Entities.User user = new Domain.Entities.User(request.username, request.emailUser, request.password, Admin.Master, DateTime.UtcNow, DateTime.UtcNow, companyId, Status.Active);
 
             Domain.Entities.User userResponse = await _userRepository.AddAsync(user);
 
-            var userDTO = new UserResponseDTO(userResponse.UserId, userResponse.Username, userResponse.Email, (short)userResponse.Admin, userResponse.EntryDate, userResponse.UpdateDate);
+            var userDTO = new UserResponseDTO(userResponse.UserId, userResponse.Username, userResponse.Email, (short)userResponse.Admin, userResponse.EntryDate, userResponse.UpdateDate, (short)userResponse.Status);
 
             return new CompanyResponseDTO(company.CompanyId, company.ReasonName, 
                             company.FantasyName, company.RegistrationNumber, company.RGIENumber, 

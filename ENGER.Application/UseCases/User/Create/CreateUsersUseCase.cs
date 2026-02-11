@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace ENGER.Application.UseCases.User.GetAll
+namespace ENGER.Application.UseCases.User.Create
 {
     public class CreateUsersUseCase
     {
@@ -34,7 +34,7 @@ namespace ENGER.Application.UseCases.User.GetAll
             Validation.Validation.InputRequired(request.password, "password", errors);
             Validation.Validation.MaxLength(request.password, 60, "password", errors);
 
-            Validation.Validation.MaxAdmin(request.admin, "admin", errors);
+            Validation.Validation.MaxEnum(request.admin, "admin", 7, errors);
 
             Domain.Entities.User objUserEmailVerify = await _repository.GetByEmail(request.email, companyId);
 
@@ -46,7 +46,7 @@ namespace ENGER.Application.UseCases.User.GetAll
 
             Domain.Entities.User objUser = new Domain.Entities.User(request.username, request.email, 
                                                             request.password, (ENGER.Domain.Enums.Admin)request.admin, 
-                                                            DateTime.UtcNow, DateTime.UtcNow, companyId);
+                                                            DateTime.UtcNow, DateTime.UtcNow, companyId, Status.Active);
 
             await _repository.AddAsync(objUser);
 
@@ -57,7 +57,8 @@ namespace ENGER.Application.UseCases.User.GetAll
                  objUser.Email,
                  (short)objUser.Admin,
                  objUser.EntryDate,
-                 objUser.UpdateDate
+                 objUser.UpdateDate,
+                 (short)objUser.Status
              );
 
             return userDTO;

@@ -51,11 +51,11 @@ namespace ENGER.Application.Validation
         }
 
         // valida admin
-        public static void MaxAdmin(short? value, string fieldName, List<ValidationError> errors)
+        public static void MaxEnum(short? value, string fieldName, short shMax,List<ValidationError> errors)
         {
-            if (value > 0 && value <= 7) return;
+            if (value > 0 && value <= shMax) return;
 
-            if (value < 0 && value > 7)
+            if (value < 0 && value > shMax)
                 errors.Add(new ValidationError(fieldName, "O valor do campo admin esta incorreto"));
         }
     }

@@ -66,10 +66,12 @@ namespace ENGER.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task<User> UpdateAsync(User user)
         {
             _context.Update(user);
             await _context.SaveChangesAsync();
+
+            return user;
         }
     }
 }

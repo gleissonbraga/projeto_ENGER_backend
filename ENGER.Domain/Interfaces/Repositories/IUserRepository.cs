@@ -10,7 +10,7 @@ namespace ENGER.Domain.Interfaces.Repositories
     public interface IUserRepository
     {
         Task<User> AddAsync(User user);
-        Task UpdateAsync(User user);
+        Task<User> UpdateAsync(User user);
         Task DeleteAsync(int id);
         Task<User?> GetByIdAsync(int userid, int intCompanyId);
         Task InactiveUser(User user);

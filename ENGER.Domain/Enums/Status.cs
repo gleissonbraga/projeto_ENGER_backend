@@ -9,6 +9,12 @@ namespace ENGER.Domain.Enums
 {
     public enum Status
     {
+        // All
+
+        Active = 1,
+        Inactive = 2,
+
+        // Subscription
         [Description("Active subscription")]
         SubActive = 1,
         [Description("Inactive subscription")]
@@ -20,6 +26,9 @@ namespace ENGER.Domain.Enums
         [Description("Expired subscription")]
         SubExpired = 5,
         [Description("Pending subscription")]
-        SubPending = 5,
+        SubPending = 6,
+
+
+
     }
 }
