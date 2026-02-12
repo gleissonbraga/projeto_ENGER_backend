@@ -9,10 +9,10 @@ namespace ENGER.Domain.Interfaces.Repositories
 {
     public interface ISubscriptionTypeRepository
     {
-        Task AddAsync(SubscriptionType subscriptionType);
-        Task UpdateAsync(SubscriptionType subscriptionType);
-        Task DeleteAsync(int id);
-        Task<Company?> GetByIdAsync(int subscriptionId);
+        Task<SubscriptionType> AddAsync(SubscriptionType subscriptionType);
+        Task<SubscriptionType> UpdateAsync(SubscriptionType subscriptionType);
+        Task DeleteAsync(SubscriptionType subscriptionType);
+        Task<SubscriptionType?> GetByIdAsync(int subscriptionId);
         Task<IEnumerable<SubscriptionType>> GetAllAsync();
     }
 }

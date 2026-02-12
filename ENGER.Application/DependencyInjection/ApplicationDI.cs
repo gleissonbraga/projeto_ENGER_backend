@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ENGER.Application.UseCases.User.GetUserById;
 using ENGER.Application.UseCases.User.UpdateUser;
+using ENGER.Application.UseCases.User.Update;
+using ENGER.Application.UseCases.User.Delete;
+using ENGER.Application.UseCases.User.GetById;
 
 namespace ENGER.Application.DependencyInjection
 {
@@ -23,12 +26,16 @@ namespace ENGER.Application.DependencyInjection
 
             // Users
             services.AddScoped<CreateUsersUseCase>();
-            services.AddScoped<GetAllUsersUseCase>();
+            services.AddScoped<GetAllTypesUseCase>();
             services.AddScoped<GetUserByIdUseCase>();
             services.AddScoped<UpdateUserUseCase>();
 
             // Subscription Type
             services.AddScoped<CreateSubscriptionTypeUsecase>();
+            services.AddScoped<UpdateTypeUseCase>();
+            services.AddScoped<DeleteTypeUseCase>();
+            services.AddScoped<GetAllTypesUseCase>();
+            services.AddScoped<GetByIdTypeUseCase>();
 
             return services;
         }

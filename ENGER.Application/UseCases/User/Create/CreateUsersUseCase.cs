@@ -44,8 +44,10 @@ namespace ENGER.Application.UseCases.User.Create
             if (errors.Count > 0)
                 throw new ApplicException(errors);
 
-            Domain.Entities.User objUser = new Domain.Entities.User(request.username, request.email, 
-                                                            request.password, (ENGER.Domain.Enums.Admin)request.admin, 
+            string strHashPassword = BCrypt.Net.BCrypt.HashPassword(request.password);
+
+            Domain.Entities.User objUser = new Domain.Entities.User(request.username, request.email,
+                                                            strHashPassword, (ENGER.Domain.Enums.Admin)request.admin, 
                                                             DateTime.UtcNow, DateTime.UtcNow, companyId, Status.Active);
 
             await _repository.AddAsync(objUser);

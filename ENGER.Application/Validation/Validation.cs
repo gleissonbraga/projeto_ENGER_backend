@@ -39,7 +39,7 @@ namespace ENGER.Application.Validation
             bool isValid = decimal.TryParse(value, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out _) ||
                            decimal.TryParse(value, System.Globalization.NumberStyles.Any, new System.Globalization.CultureInfo("pt-BR"), out _);
 
-            if (!isValid)
+            if (!isValid || decimal.Parse(value) < 0)
                 errors.Add(new ValidationError(fieldName, "Este campo deve ser um número decimal válido."));
         }
 

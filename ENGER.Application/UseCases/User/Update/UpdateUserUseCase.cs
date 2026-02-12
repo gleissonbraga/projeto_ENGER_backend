@@ -4,11 +4,7 @@ using ENGER.Domain.Entities;
 using ENGER.Domain.Enums;
 using ENGER.Domain.Exceptions;
 using ENGER.Domain.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BCrypt.Net;
 
 namespace ENGER.Application.UseCases.User.UpdateUser
 {
@@ -50,9 +46,11 @@ namespace ENGER.Application.UseCases.User.UpdateUser
             if (errors.Count > 0)
                 throw new ApplicException(errors);
 
+            string strHashPassword = BCrypt.Net.BCrypt.HashPassword(request.password);
+
             objUser.Username = request.username;
             objUser.Email = request.email;
-            objUser.Password = request.password;
+            objUser.Password = strHashPassword;
             objUser.UpdateDate = DateTime.UtcNow;
             objUser.Admin = (Admin)request.admin;
             objUser.Status = (Status)request.status;
