@@ -40,6 +40,7 @@ namespace ENGER.Infrastructure.Data.Mappings
              .IsRequired(true)
              .HasMaxLength(8);
 
+
         }
     }
 }

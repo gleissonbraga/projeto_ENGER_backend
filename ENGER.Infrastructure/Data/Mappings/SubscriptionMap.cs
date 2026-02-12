@@ -33,12 +33,6 @@ namespace ENGER.Infrastructure.Data.Mappings
 
             builder.Property(c => c.PaymentDate)
               .HasColumnName("DT_PAGAMENTO");
-
-            builder.HasOne<Company>()
-               .WithOne()
-               .HasPrincipalKey<Company>(s => s.CompanyId)
-               .HasForeignKey<Card>(c => c.CardId)
-               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
