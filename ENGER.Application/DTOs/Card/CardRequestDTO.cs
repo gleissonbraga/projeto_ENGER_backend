@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace ENGER.Application.DTOs.Card
 {
-    public record CardRequestDTO(string cardToken, string lastCardNumber, string brand, string expirationDateCard);
+    public record CardRequestDTO(string cardToken);
 }

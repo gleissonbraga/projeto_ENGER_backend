@@ -3,6 +3,9 @@ using ENGER.Application.DependencyInjection;
 using ENGER.Infrastructure.Data.Context;
 using ENGER.Infrastructure.DependencyInjection; // Importante para enxergar o método de extensão
 using Microsoft.EntityFrameworkCore;
+using MercadoPago.Config;
+
+MercadoPagoConfig.AccessToken = "SEU_ACCESS_TOKEN";
 
 
 var builder = WebApplication.CreateBuilder(args);

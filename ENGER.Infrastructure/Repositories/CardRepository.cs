@@ -1,6 +1,7 @@
 ﻿using ENGER.Domain.Entities;
 using ENGER.Domain.Interfaces.Repositories;
 using ENGER.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,11 @@ namespace ENGER.Infrastructure.Repositories
             return card;
         }
 
-        public Task<Card> GetCardByIdCompanyAsync(int companyId)
+        public async Task<Card> GetCardByIdCompanyAsync(int companyId)
         {
-            throw new NotImplementedException();
+            Card objCard = await _context.Cards.FirstOrDefaultAsync(x => x.CompanyId == companyId);
+
+            return objCard;
         }
     }
 }

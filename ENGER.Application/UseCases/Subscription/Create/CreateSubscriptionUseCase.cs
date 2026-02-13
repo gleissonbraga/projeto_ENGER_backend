@@ -17,24 +17,45 @@ namespace ENGER.Application.UseCases.Subscription.Create
     {
         private readonly ISubscriptionRepository _repository;
         private readonly ICardRepository _cardRepository;
+        private readonly IPaymentServiceRepository _paymentServiceRepository;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly ISubscriptionTypeRepository _subscriptionTypeRepository;
 
-        public CreateSubscriptionUseCase(ISubscriptionRepository repository, ICardRepository cardRepository)
+        public CreateSubscriptionUseCase(ISubscriptionRepository repository, ICardRepository cardRepository, IPaymentServiceRepository paymentServiceRepository, ISubscriptionTypeRepository subscriptionTypeRepository)
         {
             _repository = repository;
             _cardRepository = cardRepository;
+            _paymentServiceRepository = paymentServiceRepository;
+            _subscriptionTypeRepository = subscriptionTypeRepository;
         }
 
-        public async Task ExecuteAsync(SubscriptionRequestDTO request)
+        public async Task<int> ExecuteAsync(SubscriptionRequestDTO request)
         {
             DateTime expirationDate = DateTime.UtcNow.AddDays(30);
+            DateTime nextBilling = DateTime.UtcNow.AddMonths(1);
 
-            Card objCard = new Card(request.CardRequestDTO.cardToken, request.CardRequestDTO.lastCardNumber, request.CardRequestDTO.brand, request.CardRequestDTO.expirationDateCard, request.companyId);
+            var errors = new List<ValidationError>();
 
+            //Validation.Validation.InputRequired(request.descriptionSubscriptionType, "descriptionSubscriptionType", errors);
+            //Validation.Validation.MaxLength(request.descriptionSubscriptionType, 40, "descriptionSubscriptionType", errors);
+
+            Domain.Entities.Company objCompany = await _companyRepository.GetByIdAsync(request.companyId);
+
+            if (objCompany == null) throw new ApplicException("company", "Empresa não encontrada");
+
+            Domain.Entities.Card objCard = await _paymentServiceRepository.AddCardCustomerAsync(request.CardRequestDTO.cardToken, objCompany.Email, objCompany.CompanyId);
             await _cardRepository.AddAsync(objCard);
 
-            Domain.Entities.Subscription objSubscription = new Domain.Entities.Subscription(Guid.NewGuid(), expirationDate, Status.SubPending, DateTime.UtcNow, 1);
-
+            Domain.Entities.Subscription objSubscription = new Domain.Entities.Subscription(Guid.NewGuid(), DateTime.UtcNow, Status.SubPending, DateTime.UtcNow, request.subscriptionTypeId, nextBilling, expirationDate);
             await _repository.AddAsync(objSubscription);
+
+            Domain.Entities.SubscriptionType objSubType = await _subscriptionTypeRepository.GetByIdAsync(request.subscriptionTypeId);
+
+            if (objSubType == null) throw new ApplicException("subscritionType", "Assinatura não encontrada");
+
+            int intStatus = await _paymentServiceRepository.CreatePaymentAsync(objCard, objSubType.SubscriptionValue, objSubscription.SubscriptionCode);
+
+            return intStatus;
         }
     }
 }

@@ -13,32 +13,49 @@ namespace ENGER.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Card> builder)
         {
-            builder.ToTable("CARTOES"); // Nome da tabela no Postgres
+            builder.ToTable("CARTOES");
+
             builder.HasKey(c => c.CardId);
 
             builder.Property(c => c.CardId)
                 .HasColumnName("CD_CARTAO")
                 .ValueGeneratedOnAdd();
 
-            builder.Property(c => c.CardToken)
-                .HasColumnName("CD_TOKEN")
-                .IsRequired(true)
-                .HasMaxLength(20);
+            builder.Property(c => c.MercadoPagoCustomerId)
+                .HasColumnName("CD_MP_CUSTOMER")
+                .IsRequired()
+                .HasMaxLength(100);
+
+            builder.Property(c => c.MercadoPagoCardId)
+                .HasColumnName("CD_MP_CARTAO")
+                .IsRequired()
+                .HasMaxLength(100);
 
             builder.Property(c => c.LastCardNumber)
-               .HasColumnName("NR_CARTAO")
-               .IsRequired(true)
-               .HasMaxLength(4);
+                .HasColumnName("NR_FINAL_CARTAO")
+                .IsRequired()
+                .HasMaxLength(4);
 
             builder.Property(c => c.Brand)
-               .HasColumnName("NM_BANDEIRA")
-               .IsRequired(true)
-               .HasMaxLength(30);
+                .HasColumnName("NM_BANDEIRA")
+                .IsRequired()
+                .HasMaxLength(30);
 
-            builder.Property(c => c.ExpirationDateCard)
-             .HasColumnName("DT_EXPIRACAO")
-             .IsRequired(true)
-             .HasMaxLength(8);
+            builder.Property(c => c.ExpirationMonth)
+                .HasColumnName("NR_MES_EXPIRACAO")
+                .IsRequired();
+
+            builder.Property(c => c.ExpirationYear)
+                .HasColumnName("NR_ANO_EXPIRACAO")
+                .IsRequired();
+
+            builder.Property(c => c.CompanyId)
+                .HasColumnName("CD_EMPRESA");
+
+            builder.HasOne(c => c.Company)
+                .WithMany()
+                .HasForeignKey(c => c.CompanyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
         }

@@ -20,15 +20,18 @@ namespace ENGER.Domain.Enums
         [Description("Inactive subscription")]
         SubInactive = 2,
         [Description("Canceled subscription")]
-        SubCanceled = 3,
+        SubCancelled = 3,
         [Description("Subscription in test")]
         SubTest = 4,
         [Description("Expired subscription")]
         SubExpired = 5,
         [Description("Pending subscription")]
         SubPending = 6,
-
-
-
+        [Description("In Proccess subscription")]
+        SubInProcess = 7,
+        [Description("Subscription Rejected")]
+        SubRejected = 8,
+        [Description("Subscription Refunded")]
+        SubRefunded = 9,
     }
 }

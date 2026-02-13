@@ -27,6 +27,15 @@ namespace ENGER.Infrastructure.Data.Mappings
             builder.Property(c => c.ExpirationDate)
                .HasColumnName("DT_VENCIMENTO");
 
+            builder.Property(c => c.PaymentDate)
+                .HasColumnName("DT_PAGAMENTO");
+
+            builder.Property(c => c.StartDate)
+                .HasColumnName("DT_INICIO");
+
+            builder.Property(c => c.NextBillingDate)
+                .HasColumnName("DT_PROXIMA_COBRANCA");
+
             builder.Property(c => c.StatusSubscription)
               .HasColumnName("STATUS_ASSINATURA")
               .HasColumnType("integer");

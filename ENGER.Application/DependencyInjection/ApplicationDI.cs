@@ -14,6 +14,7 @@ using ENGER.Application.UseCases.User.UpdateUser;
 using ENGER.Application.UseCases.User.Update;
 using ENGER.Application.UseCases.User.Delete;
 using ENGER.Application.UseCases.User.GetById;
+using ENGER.Application.UseCases.Card.GetByIdCompany;
 
 namespace ENGER.Application.DependencyInjection
 {
@@ -26,7 +27,7 @@ namespace ENGER.Application.DependencyInjection
 
             // Users
             services.AddScoped<CreateUsersUseCase>();
-            services.AddScoped<GetAllTypesUseCase>();
+            services.AddScoped<GetAllUsersUseCase>();
             services.AddScoped<GetUserByIdUseCase>();
             services.AddScoped<UpdateUserUseCase>();
 
@@ -36,6 +37,9 @@ namespace ENGER.Application.DependencyInjection
             services.AddScoped<DeleteTypeUseCase>();
             services.AddScoped<GetAllTypesUseCase>();
             services.AddScoped<GetByIdTypeUseCase>();
+
+            // Card
+            services.AddScoped<GetCardUseCase>();
 
             return services;
         }
