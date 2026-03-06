@@ -5,7 +5,7 @@ using ENGER.Infrastructure.DependencyInjection; // Importante para enxergar o m√
 using Microsoft.EntityFrameworkCore;
 using MercadoPago.Config;
 
-MercadoPagoConfig.AccessToken = "SEU_ACCESS_TOKEN";
+//MercadoPagoConfig.AccessToken = "TEST-8390326417261248-030317-f61af5e647880f935dc6f37c4d846867-2685085537";
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -56,8 +56,6 @@ namespace ENGER.Infrastructure.Data.Mappings
                 .WithMany()
                 .HasForeignKey(c => c.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-
         }
     }
 }

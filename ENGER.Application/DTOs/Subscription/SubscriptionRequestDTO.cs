@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace ENGER.Application.DTOs.Subsciption
 {
-    public record SubscriptionRequestDTO(int subscriptionTypeId, int companyId, CardRequestDTO CardRequestDTO);
+    public record SubscriptionRequestDTO(int subscriptionTypeId, CardRequestDTO CardRequestDTO);
   
 }

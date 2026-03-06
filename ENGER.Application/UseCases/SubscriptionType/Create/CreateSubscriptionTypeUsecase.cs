@@ -32,9 +32,12 @@ namespace ENGER.Application.UseCases.SubscriptionType.Create
             Validation.Validation.OnlyNumbers(request.subscriptionValue.ToString(), "subscriptionValue", errors);
             Validation.Validation.IsDecimal(request.subscriptionValue.ToString(), "subscriptionValue", errors);
 
+            Validation.Validation.InputRequired(request.months.ToString(), "months", errors);
+            Validation.Validation.OnlyNumbers(request.months.ToString(), "months", errors);
+
             if (errors.Count > 0) throw new ApplicException(errors);
 
-            Domain.Entities.SubscriptionType objSubscriptionType = new Domain.Entities.SubscriptionType(request.descriptionSubscriptionType, request.subscriptionValue);
+            Domain.Entities.SubscriptionType objSubscriptionType = new Domain.Entities.SubscriptionType(request.descriptionSubscriptionType, request.subscriptionValue, request.months);
 
             await _repository.AddAsync(objSubscriptionType);
 

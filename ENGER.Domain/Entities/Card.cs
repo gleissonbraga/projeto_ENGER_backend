@@ -10,29 +10,32 @@ namespace ENGER.Domain.Entities
     public class Card
     {
         [Key]
-        public int CardId { get; set; }
+        public int CardId { get; private set; }
+
         public string MercadoPagoCustomerId { get; private set; }
         public string MercadoPagoCardId { get; private set; }
-        public string LastCardNumber { get; set; }
-        public string Brand { get; set; }
+        public string LastCardNumber { get; private set; }
+        public string Brand { get; private set; }
         public int ExpirationMonth { get; private set; }
         public int ExpirationYear { get; private set; }
 
-        public int CompanyId { get; set; }
-        public Company Company { get; set; }
+        public int CompanyId { get; private set; }
+        public Company Company { get; private set; }
+
+        private Card() { }
 
         public Card(
-        string mercadoPagoCustomerId,
-        string mercadoPagoCardId,
-        string lastFourDigits,
-        string brand,
-        int expirationMonth,
-        int expirationYear,
-        int companyId)
+            string mercadoPagoCustomerId,
+            string mercadoPagoCardId,
+            string lastCardNumber,
+            string brand,
+            int expirationMonth,
+            int expirationYear,
+            int companyId)
         {
             MercadoPagoCustomerId = mercadoPagoCustomerId;
             MercadoPagoCardId = mercadoPagoCardId;
-            LastCardNumber = lastFourDigits;
+            LastCardNumber = lastCardNumber;
             Brand = brand;
             ExpirationMonth = expirationMonth;
             ExpirationYear = expirationYear;

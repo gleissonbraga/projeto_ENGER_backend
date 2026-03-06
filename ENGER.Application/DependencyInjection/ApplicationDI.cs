@@ -1,7 +1,14 @@
-﻿using ENGER.Application.UseCases.Company.Create;
+﻿using ENGER.Application.UseCases.Card.GetByIdCompany;
+using ENGER.Application.UseCases.Company.Create;
+using ENGER.Application.UseCases.Subscription.Create;
 using ENGER.Application.UseCases.SubscriptionType.Create;
-using ENGER.Application.UseCases.User.GetAll;
 using ENGER.Application.UseCases.User.Create;
+using ENGER.Application.UseCases.User.Delete;
+using ENGER.Application.UseCases.User.GetAll;
+using ENGER.Application.UseCases.User.GetById;
+using ENGER.Application.UseCases.User.GetUserById;
+using ENGER.Application.UseCases.User.Update;
+using ENGER.Application.UseCases.User.UpdateUser;
 using ENGER.Domain.Interfaces.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,12 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ENGER.Application.UseCases.User.GetUserById;
-using ENGER.Application.UseCases.User.UpdateUser;
-using ENGER.Application.UseCases.User.Update;
-using ENGER.Application.UseCases.User.Delete;
-using ENGER.Application.UseCases.User.GetById;
-using ENGER.Application.UseCases.Card.GetByIdCompany;
 
 namespace ENGER.Application.DependencyInjection
 {
@@ -40,6 +41,9 @@ namespace ENGER.Application.DependencyInjection
 
             // Card
             services.AddScoped<GetCardUseCase>();
+
+            // Subscription
+            services.AddScoped<CreateSubscriptionUseCase>();
 
             return services;
         }

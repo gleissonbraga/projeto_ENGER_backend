@@ -43,7 +43,7 @@ namespace ENGER.Application.UseCases.Company.Create
             Validation.Validation.MaxLength(request.number, 6, "number", errors);
 
             Validation.Validation.InputRequired(request.city, "city", errors);
-            Validation.Validation.MaxLength(request.city, 6, "city", errors);
+            Validation.Validation.MaxLength(request.city, 40, "city", errors);
 
             Validation.Validation.InputRequired(request.neighborhood, "neighborhood", errors);
             Validation.Validation.MaxLength(request.neighborhood, 16, "neighborhood", errors);

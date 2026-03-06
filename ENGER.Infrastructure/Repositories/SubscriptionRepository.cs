@@ -1,6 +1,7 @@
 ﻿using ENGER.Domain.Entities;
 using ENGER.Domain.Interfaces.Repositories;
 using ENGER.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,12 +19,12 @@ namespace ENGER.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<Guid> AddAsync(Subscription subscription)
+        public async Task<int> AddAsync(Subscription subscription)
         {
             await _context.Subscriptions.AddAsync(subscription);
             await _context.SaveChangesAsync();
 
-            return subscription.SubscriptionCode;
+            return subscription.SubscriptionId;
         }
 
         public Task DeleteAsync(int id)
@@ -31,14 +32,22 @@ namespace ENGER.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Company?> GetByIdAsync(int subscriptionId)
+        public async Task<Subscription?> GetByIdAsync(int subscriptionId)
         {
-            throw new NotImplementedException();
+            Subscription objSubscription = await _context.Subscriptions.FindAsync(subscriptionId);
+            return objSubscription;
         }
 
-        public Task UpdateAsync(Subscription subscription)
+        public async Task<Subscription?> GetBySubscriptionKeyAccess(Guid subscriptionId)
         {
-            throw new NotImplementedException();
+            Subscription objSubscription = await _context.Subscriptions.FirstOrDefaultAsync(x => x.SubscriptionCode == subscriptionId);
+            return objSubscription;
+        }
+
+        public async Task UpdateAsync(Subscription subscription)
+        {
+            _context.Subscriptions.Update(subscription);
+            await _context.SaveChangesAsync();
         }
     }
 }

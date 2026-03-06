@@ -16,22 +16,22 @@ namespace ENGER.Domain.Enums
 
         // Subscription
         [Description("Active subscription")]
-        SubActive = 1,
+        SubActive = 3,
         [Description("Inactive subscription")]
-        SubInactive = 2,
+        SubInactive = 4,
         [Description("Canceled subscription")]
-        SubCancelled = 3,
+        SubCancelled = 5,
         [Description("Subscription in test")]
-        SubTest = 4,
+        SubTest = 6,
         [Description("Expired subscription")]
-        SubExpired = 5,
+        SubExpired = 7,
         [Description("Pending subscription")]
-        SubPending = 6,
+        SubPending = 8,
         [Description("In Proccess subscription")]
-        SubInProcess = 7,
+        SubInProcess = 9,
         [Description("Subscription Rejected")]
-        SubRejected = 8,
+        SubRejected = 10,
         [Description("Subscription Refunded")]
-        SubRefunded = 9,
+        SubRefunded = 11,
     }
 }

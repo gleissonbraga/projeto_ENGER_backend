@@ -11,6 +11,7 @@ namespace ENGER.Domain.Interfaces.Repositories
     public interface IPaymentServiceRepository
     {
         Task<Card> AddCardCustomerAsync(string cardToken, string email, int companyId);
-        Task<int> CreatePaymentAsync(Card card, decimal amount, Guid subscriptionCode);
+        Task<(int, string)> CreatePaymentAsync(Card card, decimal amount, Guid subscriptionCode, string cardToken, Company company, Subscription subscription, SubscriptionType subscriptionType);
+        Task<bool> CancelSubscriptionAsync(string mpSubscriptionId);
     }
 }

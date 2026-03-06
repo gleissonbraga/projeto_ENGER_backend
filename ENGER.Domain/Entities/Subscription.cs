@@ -19,6 +19,7 @@ namespace ENGER.Domain.Entities
         public DateTime ExpirationDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime NextBillingDate { get; set; }
+        public string? SubscriptionIdMercadoPago { get; set; }
 
         public int TypeSubscriptionId { get; set; }
 
@@ -26,7 +27,7 @@ namespace ENGER.Domain.Entities
 
         protected Subscription() { }
 
-        public Subscription(Guid subscriptionCode, DateTime startDate, Status statusSubscription, DateTime? paymentDate, int subscriptionTypeId, DateTime nextBillingDate, DateTime expirationDate)
+        public Subscription(Guid subscriptionCode, DateTime startDate, Status statusSubscription, DateTime? paymentDate, int subscriptionTypeId, DateTime nextBillingDate, DateTime expirationDate, string? subscriptionIdMercadoPago)
         {
             SubscriptionCode = subscriptionCode;
             StatusSubscription = statusSubscription;
@@ -34,6 +35,7 @@ namespace ENGER.Domain.Entities
             TypeSubscriptionId = subscriptionTypeId;
             NextBillingDate = nextBillingDate;
             ExpirationDate = expirationDate;
+            SubscriptionIdMercadoPago = subscriptionIdMercadoPago;
         }
     }
 }

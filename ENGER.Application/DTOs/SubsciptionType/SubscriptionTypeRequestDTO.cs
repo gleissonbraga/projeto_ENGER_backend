@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace ENGER.Application.DTOs.SubsciptionType
 {
-    public record SubscriptionTypeRequestDTO(string descriptionSubscriptionType, decimal subscriptionValue);
+    public record SubscriptionTypeRequestDTO(string descriptionSubscriptionType, decimal subscriptionValue, int months);
 }
