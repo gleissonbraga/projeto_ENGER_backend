@@ -38,6 +38,8 @@ namespace ENGER.Application.UseCases.Subscription.Create
 
             Domain.Entities.Card objCard = null;
             Domain.Entities.Subscription objSubscription = null;
+            Domain.Entities.Subscription objSubscriptionReturned = null;
+
             int subscriptionId = 0;
             (int intStatus, string subscriptionIdMP) = (0, "");
 
@@ -47,17 +49,17 @@ namespace ENGER.Application.UseCases.Subscription.Create
 
             if (objCompany == null) throw new ApplicException("company", "Empresa não encontrada");
 
-            Domain.Entities.Card objCardExist = await _cardRepository.GetCardByIdCompanyAsync(companyId);
+            //Domain.Entities.Card objCardExist = await _cardRepository.GetCardByIdCompanyAsync(companyId);
 
-            if (objCardExist == null)
-            {
-                objCard = await _paymentServiceRepository.AddCardCustomerAsync(request.CardRequestDTO.cardToken, objCompany.Email, objCompany.CompanyId);
-                await _cardRepository.AddAsync(objCard);
-            }
-            else
-            {
-                objCard = objCardExist;
-            }
+            //if (objCardExist == null)
+            //{
+            //    objCard = await _paymentServiceRepository.AddCardCustomerAsync(request.CardRequestDTO.cardToken, objCompany.Email, objCompany.CompanyId);
+            //    await _cardRepository.AddAsync(objCard);
+            //}
+            //else
+            //{
+            //    objCard = objCardExist;
+            //}
 
             Domain.Entities.SubscriptionType objSubType = await _subscriptionTypeRepository.GetByIdAsync(request.subscriptionTypeId);
 
@@ -74,6 +76,8 @@ namespace ENGER.Application.UseCases.Subscription.Create
 
                 objCompany.SubscriptionCode = objSubscription.SubscriptionCode;
                 await _companyRepository.UpdateAsync(objCompany);
+
+                objSubscriptionReturned = await _repository.GetByIdAsync(subscriptionId);
             }
             else
             {
@@ -84,14 +88,20 @@ namespace ENGER.Application.UseCases.Subscription.Create
                 (intStatus, subscriptionIdMP) = await _paymentServiceRepository.CreatePaymentAsync(objCard, objSubType.SubscriptionValue, objSubscription.SubscriptionCode
                                                                                , request.CardRequestDTO.cardToken, objCompany, objSubscription, objSubType);
 
+                objSubscriptionReturned = await _repository.GetByIdAsync(objSubscription.SubscriptionId);
             }
-
-            Domain.Entities.Subscription objSubscriptionReturned = await _repository.GetByIdAsync(subscriptionId);
 
             if (objSubscriptionReturned == null) throw new ApplicException("error", "Problemas na inserção dos dados do Mercado Pago");
 
             objSubscriptionReturned.SubscriptionIdMercadoPago = subscriptionIdMP;
             objSubscriptionReturned.StatusSubscription = (Status)intStatus;
+
+            if (intStatus == (int)Status.SubRejected || intStatus == (int)Status.SubPending || intStatus == (int)Status.SubInProcess || intStatus == (int)Status.SubCancelled) 
+            {
+                objSubscriptionReturned.ExpirationDate = DateTime.Now;
+                objSubscriptionReturned.StartDate = DateTime.Now;
+                objSubscriptionReturned.PaymentDate = DateTime.Now;
+            }
 
             await _repository.UpdateAsync(objSubscriptionReturned);
 

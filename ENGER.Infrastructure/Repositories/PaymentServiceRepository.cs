@@ -21,26 +21,28 @@ namespace ENGER.Infrastructure.Repositories
     {
         public async Task<Card> AddCardCustomerAsync(string cardToken, string email, int companyId)
         {
-            var customerClient = new CustomerClient();
+            var requestOptions = new MercadoPago.Client.RequestOptions
+            {
+                AccessToken = "APP_USR-7991292609269880-030517-e6fdcad023d66c8798f735cfc1dc51a7-3246983468"
+            };
 
-            CustomerRequest customerRequest = new CustomerRequest
+            var customerClient = new MercadoPago.Client.Customer.CustomerClient();
+            var cardClient = new MercadoPago.Client.Customer.CustomerCardClient();
+
+            var customerRequest = new MercadoPago.Client.Customer.CustomerRequest
             {
                 Email = email
             };
 
-            Customer customer = await customerClient.CreateAsync(customerRequest);
-
+            var customer = await customerClient.CreateAsync(customerRequest, requestOptions);
             string customerId = customer.Id;
-
-            var cardClient = new CustomerCardClient();
 
             CustomerCardCreateRequest cardRequest = new CustomerCardCreateRequest
             {
                 Token = cardToken
             };
 
-            CustomerCard card =
-                await cardClient.CreateAsync(customerId, cardRequest);
+            CustomerCard card = await cardClient.CreateAsync(customerId, cardRequest, requestOptions);
 
             string mercadoPagoCardId = card.Id;
             string lastFour = card.LastFourDigits;
@@ -52,7 +54,6 @@ namespace ENGER.Infrastructure.Repositories
 
             return dataCard;
         }
-
         public async Task<bool> CancelSubscriptionAsync(string mpSubscriptionId)
         {
             using var httpClient = new HttpClient();
@@ -79,7 +80,6 @@ namespace ENGER.Infrastructure.Repositories
                 return false;
             }
         }
-
         public async Task<(int, string)> CreatePaymentAsync(Card card, decimal amount, Guid subscriptionCode, string cardToken, Company company, Subscription subscription, SubscriptionType subscriptionType)
         {
             using var httpClient = new HttpClient();
@@ -102,7 +102,7 @@ namespace ENGER.Infrastructure.Repositories
                     transaction_amount = amount,
                     currency_id = "BRL"
                 },
-                back_url = "https://seusite.com.br/assinatura-concluida"
+                back_url = ""
             };
 
             var json = JsonSerializer.Serialize(requestBody);
@@ -134,6 +134,55 @@ namespace ENGER.Infrastructure.Repositories
             {
                 return ((int)Status.SubRejected, "");
             }
+        }
+        public async Task<(int, string)> ReceivedNotification(JsonElement payload)
+        {
+            int newStatus = 0;
+            string externalReference = "";
+
+            if (payload.TryGetProperty("action", out var actionElement) &&
+                payload.TryGetProperty("data", out var dataElement))
+            {
+                string action = actionElement.GetString().ToString();
+
+                if (action == "payment.created" || action == "payment.updated")
+                {
+                    string paymentId = dataElement.GetProperty("id").GetString();
+
+                    using var httpClient = new HttpClient();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "APP_USR-7991292609269880-030517-e6fdcad023d66c8798f735cfc1dc51a7-3246983468");
+
+                    var response = await httpClient.GetAsync($"https://api.mercadopago.com/v1/payments/{paymentId}");
+
+                    Console.WriteLine(response);
+                    Console.WriteLine(response.IsSuccessStatusCode);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseString = await response.Content.ReadAsStringAsync();
+                        using var paymentJson = JsonDocument.Parse(responseString);
+                        var paymentRoot = paymentJson.RootElement;
+
+                        Console.WriteLine("entrou na validação");
+
+                        string status = paymentRoot.GetProperty("status").GetString();
+                        externalReference = paymentRoot.GetProperty("external_reference").GetString();
+
+                        newStatus = status switch
+                        {
+                            "approved" => (int)Status.SubActive,
+                            "rejected" => (int)Status.SubRejected,
+                            "pending" => (int)Status.SubPending,
+                            "in_process" => (int)Status.SubInProcess,
+                            "cancelled" => (int)Status.SubCancelled,
+                            _ => (int)Status.SubPending
+                        };
+                    }
+                }
+            }
+
+
+            return (newStatus, externalReference);
         }
     }
 }

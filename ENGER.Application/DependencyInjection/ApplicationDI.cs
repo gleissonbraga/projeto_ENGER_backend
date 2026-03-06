@@ -24,7 +24,7 @@ namespace ENGER.Application.DependencyInjection
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             // Company
-            services.AddScoped<CreateCompanyUseCase>();
+            services.AddScoped<UpdatePaymentUseCase>();
 
             // Users
             services.AddScoped<CreateUsersUseCase>();
@@ -44,6 +44,9 @@ namespace ENGER.Application.DependencyInjection
 
             // Subscription
             services.AddScoped<CreateSubscriptionUseCase>();
+
+            // Payment
+            services.AddScoped<UpdatePaymentUseCase>();
 
             return services;
         }
