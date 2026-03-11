@@ -1,5 +1,12 @@
 ﻿using ENGER.Application.UseCases.Card.GetByIdCompany;
 using ENGER.Application.UseCases.Company.Create;
+using ENGER.Application.UseCases.Employee.Active;
+using ENGER.Application.UseCases.Employee.Create;
+using ENGER.Application.UseCases.Employee.GetAll;
+using ENGER.Application.UseCases.Employee.GetById;
+using ENGER.Application.UseCases.Employee.Inactive;
+using ENGER.Application.UseCases.Employee.Update;
+using ENGER.Application.UseCases.Position.Create;
 using ENGER.Application.UseCases.Subscription.Create;
 using ENGER.Application.UseCases.SubscriptionType.Create;
 using ENGER.Application.UseCases.User.Create;
@@ -47,6 +54,20 @@ namespace ENGER.Application.DependencyInjection
 
             // Payment
             services.AddScoped<UpdatePaymentUseCase>();
+
+            // Position
+            services.AddScoped<CreatePositionUseCase>();
+            services.AddScoped<UpdatePositionUseCase>();
+            services.AddScoped<GetByIdPositionUseCase>();
+            services.AddScoped<GetAllPositionByCompanyUseCase>();
+
+            // Employee
+            services.AddScoped<CreateEmployeeUseCase>();
+            services.AddScoped<UpdateEmployeeUseCase>();
+            services.AddScoped<GetByIdEmployeeUseCase>();
+            services.AddScoped<GetAllEmployeesByCompanyUseCase>();
+            services.AddScoped<ActiveEmployeeUseCase>();
+            services.AddScoped<InactiveEmployeeUseCase>();
 
             return services;
         }

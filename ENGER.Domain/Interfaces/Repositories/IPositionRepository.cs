@@ -9,9 +9,10 @@ namespace ENGER.Domain.Interfaces.Repositories
 {
     public interface IPositionRepository
     {
-        Task<int> AddAsync(Position position);
+        Task<Position> AddAsync(Position position);
         Task UpdateAsync(Position position);
-        Task<Position?> GetByIdAsync(int intPositionId);
-        Task<Position?> DeleteAsync(int intPositionId);
+        Task<Position?> GetByIdAsync(int intPositionId, int companyId);
+        Task DeleteAsync(Position position);
+        Task<IEnumerable<Position>> GetAllPositions(int companyId);
     }
 }

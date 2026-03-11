@@ -58,5 +58,20 @@ namespace ENGER.Application.Validation
             if (value < 0 && value > shMax)
                 errors.Add(new ValidationError(fieldName, "O valor do campo admin esta incorreto"));
         }
+
+        public static void IsDate(string value, string fieldName, List<ValidationError> errors)
+        {
+            if (string.IsNullOrEmpty(value)) return;
+
+            // Tenta validar em formatos comuns (ISO e PT-BR)
+            string[] formats = { "yyyy-MM-dd", "dd/MM/yyyy", "yyyy/MM/dd" };
+
+            bool isValid = DateTime.TryParseExact(value, formats,
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.None, out _);
+
+            if (!isValid)
+                errors.Add(new ValidationError(fieldName, "A data informada é inválida."));
+        }
     }
 }

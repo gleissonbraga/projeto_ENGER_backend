@@ -58,6 +58,15 @@ public class EmployeeMap : IEntityTypeConfiguration<Employee>
             .HasColumnName("CD_EMPRESA")
             .IsRequired();
 
+        builder.Property(e => e.PositionId)
+            .HasColumnName("CD_CARGO")
+            .IsRequired();
+
+        builder.HasOne(e => e.Position)
+            .WithMany()
+            .HasForeignKey(e => e.PositionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder.HasOne(e => e.Company)
             .WithMany()
             .HasForeignKey(e => e.CompanyId)

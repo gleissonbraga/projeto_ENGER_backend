@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ENGER.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,6 +24,9 @@ namespace ENGER.Domain.Entities
         public DateTime UpdateDate { get; set; }
         public int CompanyId { get; set; }
         public Company Company { get; set; }
+        public int PositionId { get; set; }
+        public Position Position { get; set; }
+        public Status Status { get; set; } 
 
         protected Employee() { }
 
@@ -35,7 +39,9 @@ namespace ENGER.Domain.Entities
         string phoneNumber,
         string cellNumber,
         string email,
-        int companyId
+        int companyId,
+        int positionId,
+        Status status
     )
         {
             EmployeeName = employeeName;
@@ -47,6 +53,7 @@ namespace ENGER.Domain.Entities
             CellNumber = cellNumber;
             Email = email;
             CompanyId = companyId;
+            PositionId = positionId;
 
             EntryDate = DateTime.UtcNow;
             UpdateDate = DateTime.UtcNow;
