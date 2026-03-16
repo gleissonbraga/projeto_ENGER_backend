@@ -28,6 +28,8 @@ namespace ENGER.Infrastructure.DependencyInjection
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<IPaymentServiceRepository, PaymentServiceRepository>();
             services.AddScoped<IPositionRepository, PositionRepository>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
 
             return services;
         }

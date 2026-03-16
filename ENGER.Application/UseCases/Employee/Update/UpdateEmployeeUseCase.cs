@@ -39,10 +39,10 @@ namespace ENGER.Application.UseCases.Employee.Update
             Validation.Validation.MaxLength(request.numberGeneralRegistration, 11, "numberGeneralRegistration", errors);
 
             Validation.Validation.InputRequired(request.dateOfBirth.ToString(), "dateOfBirth", errors);
-            Validation.Validation.IsDate(request.dateOfBirth.ToString(), "dateOfBirth", errors);
+            //Validation.Validation.IsDate(request.dateOfBirth.ToString(), "dateOfBirth", errors);
 
             Validation.Validation.InputRequired(request.admissionDate.ToString(), "admissionDate", errors);
-            Validation.Validation.IsDate(request.admissionDate.ToString(), "admissionDate", errors);
+            //Validation.Validation.IsDate(request.admissionDate.ToString(), "admissionDate", errors);
 
             Validation.Validation.InputRequired(request.phoneNumber, "phoneNumber", errors);
             Validation.Validation.OnlyNumbers(request.phoneNumber, "phoneNumber", errors);
@@ -57,7 +57,7 @@ namespace ENGER.Application.UseCases.Employee.Update
             Validation.Validation.EmailFormat(request.email, "email", errors);
 
             Validation.Validation.InputRequired(request.status.ToString(), "status", errors);
-            Validation.Validation.OnlyNumbers(request.status.ToString(), "status", errors);
+            //Validation.Validation.OnlyNumbers((Status)request.status.ToString(), "status", errors);
 
             Domain.Entities.Employee objEmployee = await _repository.GetByIdAsync(employeeId, companyId);
 

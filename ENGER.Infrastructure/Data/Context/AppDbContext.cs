@@ -16,6 +16,7 @@ namespace ENGER.Infrastructure.Data.Context
         public DbSet<Card> Cards => Set<Card>();
         public DbSet<Employee> Employees => Set<Employee>();
         public DbSet<Position> Positions => Set<Position>();
+        public DbSet<Client> Clients => Set<Client>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

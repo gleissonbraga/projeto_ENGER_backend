@@ -3,6 +3,7 @@ using System;
 using ENGER.Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ENGER.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260311195355_AddColumnEmployeeAndPosition")]
+    partial class AddColumnEmployeeAndPosition
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,115 +75,6 @@ namespace ENGER.Infrastructure.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("CARTOES", (string)null);
-                });
-
-            modelBuilder.Entity("ENGER.Domain.Entities.Client", b =>
-                {
-                    b.Property<int>("ClientId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("CD_CLIENTE");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ClientId"));
-
-                    b.Property<string>("CellNumber")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("character varying(14)")
-                        .HasColumnName("NR_CELULAR");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
-                        .HasColumnName("CIDADE");
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("integer")
-                        .HasColumnName("CD_EMPRESA");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("EMAIL");
-
-                    b.Property<DateTime>("EntryDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DT_ENTRADA");
-
-                    b.Property<string>("FantasyName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("NM_FANTASIA");
-
-                    b.Property<string>("FederativeUnit")
-                        .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("character varying(2)")
-                        .HasColumnName("UF");
-
-                    b.Property<string>("Neighborhood")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("BAIRRO");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
-                        .HasColumnName("NUMERO");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("character varying(14)")
-                        .HasColumnName("NR_TELEFONE");
-
-                    b.Property<string>("RGIENumber")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("character varying(14)")
-                        .HasColumnName("NR_IERG");
-
-                    b.Property<string>("ReasonName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("NM_RAZAO");
-
-                    b.Property<string>("RegistrationNumber")
-                        .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("character varying(14)")
-                        .HasColumnName("CPF_CNPJ");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("LOGRADOURO");
-
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("DT_ATUALIZACAO");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("character varying(8)")
-                        .HasColumnName("CEP");
-
-                    b.HasKey("ClientId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("CLIENTES", (string)null);
                 });
 
             modelBuilder.Entity("ENGER.Domain.Entities.Company", b =>
@@ -532,17 +426,6 @@ namespace ENGER.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("ENGER.Domain.Entities.Card", b =>
-                {
-                    b.HasOne("ENGER.Domain.Entities.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("ENGER.Domain.Entities.Client", b =>
                 {
                     b.HasOne("ENGER.Domain.Entities.Company", "Company")
                         .WithMany()

@@ -1,4 +1,7 @@
 ﻿using ENGER.Application.UseCases.Card.GetByIdCompany;
+using ENGER.Application.UseCases.Client.Create;
+using ENGER.Application.UseCases.Client.GetAll;
+using ENGER.Application.UseCases.Client.GetById;
 using ENGER.Application.UseCases.Company.Create;
 using ENGER.Application.UseCases.Employee.Active;
 using ENGER.Application.UseCases.Employee.Create;
@@ -68,6 +71,12 @@ namespace ENGER.Application.DependencyInjection
             services.AddScoped<GetAllEmployeesByCompanyUseCase>();
             services.AddScoped<ActiveEmployeeUseCase>();
             services.AddScoped<InactiveEmployeeUseCase>();
+
+            // Client
+            services.AddScoped<CreateClientUseCase>();
+            services.AddScoped<UpdateClientUseCase>();
+            services.AddScoped<GetByIdClientUseCase>();
+            services.AddScoped<GetAllClientsByCompanyUseCase>();
 
             return services;
         }

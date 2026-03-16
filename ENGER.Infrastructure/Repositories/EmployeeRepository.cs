@@ -69,9 +69,9 @@ namespace ENGER.Infrastructure.Repositories
             return await _context.Employees.Where(x => x.CompanyId == companyId).ToListAsync();
         }
 
-        public Task<Employee?> GetByIdAsync(int employeeId, int intCompanyId)
+        public async Task<Employee?> GetByIdAsync(int employeeId, int intCompanyId)
         {
-            throw new NotImplementedException();
+            return await _context.Employees.FirstOrDefaultAsync(x => x.EmployeeId == employeeId && x.CompanyId == intCompanyId);
         }
 
         public async Task InactiveEmployee(Employee employee)

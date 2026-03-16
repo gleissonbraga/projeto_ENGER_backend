@@ -38,10 +38,10 @@ namespace ENGER.Application.UseCases.Employee.Create
             Validation.Validation.MaxLength(request.numberGeneralRegistration, 11, "numberGeneralRegistration", errors);
 
             Validation.Validation.InputRequired(request.dateOfBirth.ToString(), "dateOfBirth", errors);
-            Validation.Validation.IsDate(request.dateOfBirth.ToString(), "dateOfBirth", errors);
+            //Validation.Validation.IsDate(request.dateOfBirth.ToString(), "dateOfBirth", errors);
 
             Validation.Validation.InputRequired(request.admissionDate.ToString(), "admissionDate", errors);
-            Validation.Validation.IsDate(request.admissionDate.ToString(), "admissionDate", errors);
+            //Validation.Validation.IsDate(request.admissionDate.ToString(), "admissionDate", errors);
 
             Validation.Validation.InputRequired(request.phoneNumber, "phoneNumber", errors);
             Validation.Validation.OnlyNumbers(request.phoneNumber, "phoneNumber", errors);
