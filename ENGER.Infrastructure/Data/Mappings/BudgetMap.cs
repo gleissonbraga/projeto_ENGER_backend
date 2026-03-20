@@ -24,6 +24,9 @@ public class BudgetMap : IEntityTypeConfiguration<Budget>
         builder.Property(o => o.ClientId)
             .HasColumnName("CD_CLIENTE");
 
+        builder.Property(o => o.UserId)
+            .HasColumnName("CD_USUARIO");
+
         builder.Property(o => o.Status)
             .HasColumnName("STATUS_ORCAMENTO");
 
@@ -39,7 +42,7 @@ public class BudgetMap : IEntityTypeConfiguration<Budget>
             .HasColumnName("VL_TOTAL")
             .HasColumnType("decimal(18,2)");
 
-        builder.Property(o => o.Notes)
+        builder.Property(o => o.Observation)
             .HasColumnName("DS_OBSERVACAO")
             .HasMaxLength(255);
 

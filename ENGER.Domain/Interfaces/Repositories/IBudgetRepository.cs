@@ -9,9 +9,9 @@ namespace ENGER.Domain.Interfaces.Repositories
 {
     public interface IBudgetRepository
     {
-        Task<int> AddAsync(Budget budget);
-        Task UpdateAsync(Budget budget);
+        Task<Budget> AddAsync(Budget budget);
+        Task<Budget> UpdateAsync(Budget budget);
         Task<Budget?> GetByIdAsync(int intBudgetId, int intCompanyId);
-        Task<Budget?> GetByBudgetCompanyAsync(int intCompanyId);
+        Task<IEnumerable<Budget>> GetByBudgetCompanyAsync(int intCompanyId);
     }
 }

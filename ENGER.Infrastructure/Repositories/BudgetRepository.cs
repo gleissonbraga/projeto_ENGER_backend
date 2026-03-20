@@ -1,6 +1,7 @@
 ﻿using ENGER.Domain.Entities;
 using ENGER.Domain.Interfaces.Repositories;
 using ENGER.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,24 +19,34 @@ namespace ENGER.Infrastructure.Repositories
             _context = context;
         }
 
-        public Task<int> AddAsync(Budget budget)
+        public async Task<Budget> AddAsync(Budget budget)
         {
-            throw new NotImplementedException();
+            await _context.Budgets.AddAsync(budget);
+            await _context.SaveChangesAsync();
+
+            return budget;
         }
 
-        public Task<Budget?> GetByBudgetCompanyAsync(int intCompanyId)
+        public async Task<IEnumerable<Budget>> GetByBudgetCompanyAsync(int intCompanyId)
         {
-            throw new NotImplementedException();
+            IEnumerable<Budget> objBudgets = await _context.Budgets.Where(x => x.CompanyId == intCompanyId).ToListAsync();
+
+            return objBudgets;
         }
 
-        public Task<Budget?> GetByIdAsync(int intBudgetId, int intCompanyId)
+        public async Task<Budget?> GetByIdAsync(int intBudgetId, int intCompanyId)
         {
-            throw new NotImplementedException();
+            Budget objBudget = await _context.Budgets.FirstOrDefaultAsync(x => x.CompanyId == intCompanyId && x.BudgetId == intBudgetId);
+
+            return objBudget;
         }
 
-        public Task UpdateAsync(Budget budget)
+        public async Task<Budget?> UpdateAsync(Budget budget)
         {
-            throw new NotImplementedException();
+            _context.Budgets.Update(budget);
+            await _context.SaveChangesAsync();
+
+            return budget;
         }
     }
 }
