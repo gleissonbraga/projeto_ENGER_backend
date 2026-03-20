@@ -22,6 +22,167 @@ namespace ENGER.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ENGER.Domain.Entities.Card", b =>
+                {
+                    b.Property<int>("CardId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_CARTAO");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CardId"));
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("NM_BANDEIRA");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_EMPRESA");
+
+                    b.Property<int>("ExpirationMonth")
+                        .HasColumnType("integer")
+                        .HasColumnName("NR_MES_EXPIRACAO");
+
+                    b.Property<int>("ExpirationYear")
+                        .HasColumnType("integer")
+                        .HasColumnName("NR_ANO_EXPIRACAO");
+
+                    b.Property<string>("LastCardNumber")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("character varying(4)")
+                        .HasColumnName("NR_FINAL_CARTAO");
+
+                    b.Property<string>("MercadoPagoCardId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("CD_MP_CARTAO");
+
+                    b.Property<string>("MercadoPagoCustomerId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("CD_MP_CUSTOMER");
+
+                    b.HasKey("CardId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CARTOES", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.Client", b =>
+                {
+                    b.Property<int>("ClientId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_CLIENTE");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ClientId"));
+
+                    b.Property<string>("CellNumber")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)")
+                        .HasColumnName("NR_CELULAR");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("CIDADE");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_EMPRESA");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("EMAIL");
+
+                    b.Property<DateTime>("EntryDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ENTRADA");
+
+                    b.Property<string>("FantasyName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("NM_FANTASIA");
+
+                    b.Property<string>("FederativeUnit")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("character varying(2)")
+                        .HasColumnName("UF");
+
+                    b.Property<string>("Neighborhood")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("BAIRRO");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("NUMERO");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)")
+                        .HasColumnName("NR_TELEFONE");
+
+                    b.Property<string>("RGIENumber")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)")
+                        .HasColumnName("NR_IERG");
+
+                    b.Property<string>("ReasonName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("NM_RAZAO");
+
+                    b.Property<string>("RegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)")
+                        .HasColumnName("CPF_CNPJ");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("LOGRADOURO");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ATUALIZACAO");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)")
+                        .HasColumnName("CEP");
+
+                    b.HasKey("ClientId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CLIENTES", (string)null);
+                });
+
             modelBuilder.Entity("ENGER.Domain.Entities.Company", b =>
                 {
                     b.Property<int>("CompanyId")
@@ -127,6 +288,113 @@ namespace ENGER.Infrastructure.Migrations
                     b.ToTable("EMPRESAS", (string)null);
                 });
 
+            modelBuilder.Entity("ENGER.Domain.Entities.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_FUNCIONARIO");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EmployeeId"));
+
+                    b.Property<DateTime>("AdmissionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ADMISSAO");
+
+                    b.Property<string>("CellNumber")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)")
+                        .HasColumnName("NR_CELULAR");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_EMPRESA");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_NASCIMENTO");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("EMAIL");
+
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("NM_FUNCIONARIO");
+
+                    b.Property<DateTime>("EntryDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ENTRADA");
+
+                    b.Property<string>("NumberGeneralRegistration")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)")
+                        .HasColumnName("RG");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("character varying(14)")
+                        .HasColumnName("NR_TELEFONE");
+
+                    b.Property<int>("PositionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_CARGO");
+
+                    b.Property<string>("RegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)")
+                        .HasColumnName("CPF");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ATUALIZACAO");
+
+                    b.HasKey("EmployeeId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("PositionId");
+
+                    b.ToTable("FUNCIONARIOS", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.Position", b =>
+                {
+                    b.Property<int>("PositionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_CARGO");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PositionId"));
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_EMPRESA");
+
+                    b.Property<string>("DescriptionPosition")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("DS_CARGO");
+
+                    b.HasKey("PositionId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CARGOS", (string)null);
+                });
+
             modelBuilder.Entity("ENGER.Domain.Entities.Subscription", b =>
                 {
                     b.Property<int>("SubscriptionId")
@@ -140,9 +408,17 @@ namespace ENGER.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("DT_VENCIMENTO");
 
+                    b.Property<DateTime>("NextBillingDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_PROXIMA_COBRANCA");
+
                     b.Property<DateTime?>("PaymentDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("DT_PAGAMENTO");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_INICIO");
 
                     b.Property<int>("StatusSubscription")
                         .HasColumnType("integer")
@@ -153,18 +429,16 @@ namespace ENGER.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("CD_CHAVE");
 
-                    b.Property<int>("SubscriptionTypeId")
-                        .HasColumnType("integer");
+                    b.Property<string>("SubscriptionIdMercadoPago")
+                        .HasColumnType("text")
+                        .HasColumnName("CD_ASSINATURA_MP");
 
                     b.Property<int>("TypeSubscriptionId")
                         .HasColumnType("integer");
 
                     b.HasKey("SubscriptionId");
 
-                    b.HasIndex("SubscriptionTypeId");
-
-                    b.HasIndex("TypeSubscriptionId")
-                        .IsUnique();
+                    b.HasIndex("TypeSubscriptionId");
 
                     b.ToTable("ASSINATURA", (string)null);
                 });
@@ -184,6 +458,13 @@ namespace ENGER.Infrastructure.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("character varying(40)")
                         .HasColumnName("DS_TP_ASSINATURA");
+
+                    b.Property<int>("SubscriptionMonth")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("NR_MESES");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SubscriptionMonth"));
 
                     b.Property<decimal>("SubscriptionValue")
                         .ValueGeneratedOnAdd()
@@ -250,6 +531,28 @@ namespace ENGER.Infrastructure.Migrations
                     b.ToTable("USUARIOS", (string)null);
                 });
 
+            modelBuilder.Entity("ENGER.Domain.Entities.Card", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.Client", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("ENGER.Domain.Entities.Company", b =>
                 {
                     b.HasOne("ENGER.Domain.Entities.Subscription", null)
@@ -259,17 +562,41 @@ namespace ENGER.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("ENGER.Domain.Entities.Employee", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ENGER.Domain.Entities.Position", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Position");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.Position", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("ENGER.Domain.Entities.Subscription", b =>
                 {
                     b.HasOne("ENGER.Domain.Entities.SubscriptionType", "SubscriptionType")
                         .WithMany()
-                        .HasForeignKey("SubscriptionTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ENGER.Domain.Entities.SubscriptionType", null)
-                        .WithOne()
-                        .HasForeignKey("ENGER.Domain.Entities.Subscription", "TypeSubscriptionId")
+                        .HasForeignKey("TypeSubscriptionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

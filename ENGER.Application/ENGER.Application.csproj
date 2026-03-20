@@ -7,9 +7,13 @@
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
+    <Folder Include="UseCases\Budget\GetById\" />
+    <Folder Include="UseCases\Budget\GetByCompany\" />
+    <Folder Include="UseCases\Budget\Update\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
   </ItemGroup>
 

@@ -30,6 +30,10 @@ namespace ENGER.Infrastructure.Data.Mappings
                .HasColumnName("VL_ASSINATURA")
                .HasColumnType("numeric(18,2)")
                .ValueGeneratedOnAdd();
+
+            builder.Property(c => c.SubscriptionMonth)
+               .HasColumnName("NR_MESES")
+               .ValueGeneratedOnAdd();
         }
     }
 }

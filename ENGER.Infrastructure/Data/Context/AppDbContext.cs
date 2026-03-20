@@ -13,13 +13,16 @@ namespace ENGER.Infrastructure.Data.Context
         public DbSet<Subscription> Subscriptions => Set<Subscription>();
         public DbSet<SubscriptionType> SubscriptionTypes => Set<SubscriptionType>();
         public DbSet<User> Users => Set<User>();
+        public DbSet<Card> Cards => Set<Card>();
+        public DbSet<Employee> Employees => Set<Employee>();
+        public DbSet<Position> Positions => Set<Position>();
+        public DbSet<Client> Clients => Set<Client>();
+        public DbSet<Budget> Budgets => Set<Budget>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Esta linha varre o seu projeto Infrastructure em busca de todas as classes 
-            // que herdam de IEntityTypeConfiguration (como o seu CompanyMap) e as aplica.
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }

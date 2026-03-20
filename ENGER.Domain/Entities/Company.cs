@@ -28,7 +28,7 @@ namespace ENGER.Domain.Entities
         public DateTime DateOfBirth { get; private set; }
         public DateTime EntryDate { get; private set; }
         public DateTime UpdateDate { get; private set; }
-        public Guid? SubscriptionCode { get; private set; }
+        public Guid? SubscriptionCode { get; set; }
 
         public virtual ICollection<User> Users { get; private set; } = new List<User>();
 

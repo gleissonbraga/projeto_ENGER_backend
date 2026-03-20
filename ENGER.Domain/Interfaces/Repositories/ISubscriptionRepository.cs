@@ -9,9 +9,10 @@ namespace ENGER.Domain.Interfaces.Repositories
 {
     public interface ISubscriptionRepository
     {
-        Task<Guid> AddAsync(Subscription subscription);
+        Task<int> AddAsync(Subscription subscription);
         Task UpdateAsync(Subscription subscription);
         Task DeleteAsync(int id);
-        Task<Company?> GetByIdAsync(int subscriptionId);
+        Task<Subscription?> GetByIdAsync(int subscriptionId);
+        Task<Subscription?> GetBySubscriptionKeyAccess(Guid subscriptionId);
     }
 }
