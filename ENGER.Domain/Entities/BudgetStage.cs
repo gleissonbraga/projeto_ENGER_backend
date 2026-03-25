@@ -1,4 +1,5 @@
-﻿using ENGER.Domain.Exceptions;
+﻿using ENGER.Domain.Enums;
+using ENGER.Domain.Exceptions;
 using System.ComponentModel.DataAnnotations;
 
 namespace ENGER.Domain.Entities
@@ -10,6 +11,7 @@ namespace ENGER.Domain.Entities
         public int BudgetId { get; private set; }
         public string Description { get; private set; }
         public int Order { get; private set; }
+        public Status Status { get; private set; }
 
         public virtual Budget Budget { get; private set; }
         public virtual ICollection<BudgetMaterial> Materials { get; private set; } = new List<BudgetMaterial>();
@@ -17,12 +19,11 @@ namespace ENGER.Domain.Entities
 
         protected BudgetStage() { }
 
-        public BudgetStage(int budgetId, string description, int order)
+        public BudgetStage(string description, int order, Status status)
         {
-            if (string.IsNullOrWhiteSpace(description)) throw new DomainException("Etapa", "Descrição da etapa é obrigatória.");
-            BudgetId = budgetId;
             Description = description;
             Order = order;
+            Status = status;
         }
     }
 }

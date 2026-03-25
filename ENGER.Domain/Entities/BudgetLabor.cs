@@ -14,9 +14,8 @@ namespace ENGER.Domain.Entities
 
         protected BudgetLabor() { }
 
-        public BudgetLabor(int stageId, int roleId, decimal plannedHours, decimal hourlyRate, decimal socialCharges)
+        public BudgetLabor(int roleId, decimal plannedHours, decimal hourlyRate, decimal socialCharges)
         {
-            StageId = stageId;
             RoleId = roleId;
             PlannedHours = plannedHours;
             HourlyRate = hourlyRate;

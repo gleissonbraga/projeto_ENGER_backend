@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace ENGER.Application.DTOs.Budget
 {
     public record BudgetStageRequestDTO(
-        string Description,
-        int Order,
+        string description,
+        int order,
         List<BudgetMaterialRequestDTO> Materials,
         List<BudgetLaborRequestDTO> Labors
     );
