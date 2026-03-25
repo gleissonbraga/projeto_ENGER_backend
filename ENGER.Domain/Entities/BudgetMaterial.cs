@@ -15,9 +15,8 @@ namespace ENGER.Domain.Entities
 
         protected BudgetMaterial() { }
 
-        public BudgetMaterial(int stageId, string description, string unit, decimal plannedQuantity, decimal unitCost, bool isClientProvided)
+        public BudgetMaterial(string description, string unit, decimal plannedQuantity, decimal unitCost, bool isClientProvided)
         {
-            StageId = stageId;
             Description = description;
             Unit = unit;
             PlannedQuantity = plannedQuantity;

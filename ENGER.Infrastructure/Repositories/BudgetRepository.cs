@@ -29,14 +29,25 @@ namespace ENGER.Infrastructure.Repositories
 
         public async Task<IEnumerable<Budget>> GetByBudgetCompanyAsync(int intCompanyId)
         {
-            IEnumerable<Budget> objBudgets = await _context.Budgets.Where(x => x.CompanyId == intCompanyId).ToListAsync();
+            IEnumerable<Budget> objBudgets = await _context.Budgets
+                        .Include(x => x.Client)
+                            .Include(x => x.Stages)
+                                .ThenInclude(s => s.Materials)
+                            .Include(x => x.Stages)
+                                .ThenInclude(s => s.Labors)
+                        .Where(x => x.CompanyId == intCompanyId).ToListAsync();
 
             return objBudgets;
         }
 
         public async Task<Budget?> GetByIdAsync(int intBudgetId, int intCompanyId)
         {
-            Budget objBudget = await _context.Budgets.FirstOrDefaultAsync(x => x.CompanyId == intCompanyId && x.BudgetId == intBudgetId);
+            Budget objBudget = await _context.Budgets.Include(x => x.Client)
+                            .Include(x => x.Stages)
+                                .ThenInclude(s => s.Materials)
+                            .Include(x => x.Stages)
+                                .ThenInclude(s => s.Labors)
+                             .FirstOrDefaultAsync(x => x.CompanyId == intCompanyId && x.BudgetId == intBudgetId);
 
             return objBudget;
         }

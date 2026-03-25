@@ -25,6 +25,10 @@ namespace ENGER.Infrastructure.Data.Mappings
                 .HasMaxLength(100)
                 .IsRequired();
 
+            builder.Property(x => x.Status)
+                .HasColumnName("STATUS_ORCAMENTO")
+                .HasConversion<int>();
+
             builder.Property(s => s.Order)
                 .HasColumnName("NR_ORDEM")
                 .IsRequired();

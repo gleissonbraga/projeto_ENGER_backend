@@ -11,7 +11,7 @@ namespace ENGER.Domain.Entities
     public class Budget
     {
         [Key]
-        public long BudgetId { get; private set; }
+        public int BudgetId { get; private set; }
         public string? Description { get; private set; }
         public Status Status { get; private set; }
         public int? CompanyId { get; private set; }
@@ -29,6 +29,8 @@ namespace ENGER.Domain.Entities
         public Company? Company { get; private set; }
         public Client? Client { get; private set; }
 
+        private Budget() { }
+
         // 🧠 Constructor
         public Budget(
             int? companyId,
@@ -39,7 +41,7 @@ namespace ENGER.Domain.Entities
             decimal? totalStepsValue,
             decimal? totalMaterialsValue,
             decimal? totalValue,
-            string? notes
+            string? observation
         )
         {
             CompanyId = companyId;
@@ -50,7 +52,8 @@ namespace ENGER.Domain.Entities
             TotalStepsValue = totalStepsValue;
             TotalMaterialsValue = totalMaterialsValue;
             TotalValue = totalValue;
-            Observation = notes;
+            Observation = observation;
+
             EntryDate = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
         }

@@ -31,7 +31,7 @@ namespace ENGER.API.Controllers
             _getAllClientUseCase = getAllClientUseCase;
         }
 
-        [HttpPost]
+        [HttpPost("{companyId}")]
         public async Task<IActionResult> Create([FromRoute] int companyId, [FromBody] ClientRequestDTO request)
         {
             try

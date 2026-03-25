@@ -18,6 +18,9 @@ namespace ENGER.Infrastructure.Data.Context
         public DbSet<Position> Positions => Set<Position>();
         public DbSet<Client> Clients => Set<Client>();
         public DbSet<Budget> Budgets => Set<Budget>();
+        public DbSet<BudgetLabor> BudgetLabors => Set<BudgetLabor>();
+        public DbSet<BudgetMaterial> BudgetMaterial => Set<BudgetMaterial>();
+        public DbSet<BudgetStage> BudgetStages => Set<BudgetStage>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

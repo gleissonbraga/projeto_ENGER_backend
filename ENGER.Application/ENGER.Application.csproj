@@ -7,7 +7,6 @@
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
-    <Folder Include="UseCases\Budget\GetById\" />
     <Folder Include="UseCases\Budget\GetByCompany\" />
     <Folder Include="UseCases\Budget\Update\" />
   </ItemGroup>

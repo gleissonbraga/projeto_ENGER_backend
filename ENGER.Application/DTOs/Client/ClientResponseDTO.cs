@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ENGER.Application.DTOs.Company
 {
-    public record ClientResponseDTO(int companyId, string reasonName, string fantasyName, string registrationNumber,
+    public record ClientResponseDTO(int? companyId, string reasonName, string fantasyName, string registrationNumber,
                                 string rGIeNumber, string email, string street, string number, string city, string neighborhood, string zipCode,
                                 string federativeunit, string phoneNumber, string cellNumber);
 }

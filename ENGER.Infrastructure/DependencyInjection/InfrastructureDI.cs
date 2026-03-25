@@ -30,6 +30,7 @@ namespace ENGER.Infrastructure.DependencyInjection
             services.AddScoped<IPositionRepository, PositionRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IBudgetRepository, BudgetRepository>();
 
             return services;
         }
