@@ -27,8 +27,9 @@ public class BudgetMap : IEntityTypeConfiguration<Budget>
         builder.Property(o => o.UserId)
             .HasColumnName("CD_USUARIO");
 
-        builder.Property(o => o.Status)
-            .HasColumnName("STATUS_ORCAMENTO");
+        builder.Property(x => x.Status)
+            .HasColumnName("STATUS_ORCAMENTO")
+            .HasConversion<int>();
 
         builder.Property(o => o.TotalStepsValue)
             .HasColumnName("VL_TOTAL_ETAPAS")
@@ -48,11 +49,11 @@ public class BudgetMap : IEntityTypeConfiguration<Budget>
 
         builder.Property(o => o.EntryDate)
             .HasColumnName("DT_ENTRADA")
-            .HasColumnType("date");
+            .HasColumnType("timestamptz");
 
         builder.Property(o => o.UpdatedAt)
             .HasColumnName("DT_ATUALIZACAO")
-            .HasColumnType("timestamp");
+            .HasColumnType("timestamptz");
 
         // 🔗 Relacionamentos
         builder.HasOne(o => o.Company)

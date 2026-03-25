@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ENGER.Application.DTOs.Budget
 {
-    public record BudgetResponseDTO(
-        int? CompanyId,
-        int? ClientId,
-        string? Description,
-        int? Status,
-        decimal? TotalStepsValue,
-        decimal? TotalMaterialsValue,
-        decimal? TotalValue,
-        string? Notes,
+    public record BudgetRequestDTO(
+        int? clientId,
+        int? userId,
+        string? description,
+        int? status,
+        decimal? totalStepsValue,
+        decimal? totalMaterialsValue,
+        decimal? totalValue,
+        string? observation,
         List<BudgetStageRequestDTO> Stages
     );
 }

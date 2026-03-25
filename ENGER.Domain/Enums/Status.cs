@@ -10,7 +10,6 @@ namespace ENGER.Domain.Enums
     public enum Status
     {
         // All
-
         Active = 1,
         Inactive = 2,
 
@@ -33,5 +32,24 @@ namespace ENGER.Domain.Enums
         SubRejected = 10,
         [Description("Subscription Refunded")]
         SubRefunded = 11,
+
+        // Budget
+        [Description("Pending budget")]
+        BudPending = 12,
+        [Description("Approved budget")]
+        BudApproved = 13,
+        [Description("Rejected budget")]
+        BudRejected = 14,
+        [Description("Budget in progress")]
+        BudInProgress = 15,
+        [Description("Completed budget")]
+        BudCompleted = 16,
+        [Description("Canceled budget")]
+        BudCanceled = 17,
+        [Description("Budget on hold")]
+        BudOnHold = 18,
+        [Description("Budget under review")]
+        BudInReview = 18
+        
     }
 }
