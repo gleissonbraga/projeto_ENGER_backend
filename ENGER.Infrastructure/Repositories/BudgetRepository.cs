@@ -52,6 +52,18 @@ namespace ENGER.Infrastructure.Repositories
             return objBudget;
         }
 
+        public async Task<Budget?> GetByKeyAsync(Guid keyBudget, int intCompanyId)
+        {
+            Budget objBudget = await _context.Budgets.Include(x => x.Client)
+                .Include(x => x.Stages)
+                    .ThenInclude(s => s.Materials)
+                .Include(x => x.Stages)
+                    .ThenInclude(s => s.Labors)
+                 .FirstOrDefaultAsync(x => x.CompanyId == intCompanyId && x.KeyBudget == keyBudget);
+
+            return objBudget;
+        }
+
         public async Task<Budget?> UpdateAsync(Budget budget)
         {
             _context.Budgets.Update(budget);

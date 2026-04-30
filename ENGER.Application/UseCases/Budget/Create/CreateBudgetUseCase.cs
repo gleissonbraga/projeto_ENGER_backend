@@ -10,20 +10,26 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 
 namespace ENGER.Application.UseCases.Budget.Create
 {
     public class CreateBudgetUseCase
     {
-        public readonly IBudgetRepository _repository;
-        public readonly ICompanyRepository _companyRepository;
-        public readonly IClientRepository _clientRepository;
+        private readonly IBudgetRepository _repository;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IClientRepository _clientRepository;
+        private readonly IEmailService _emailService;
 
-        public CreateBudgetUseCase(IBudgetRepository repository, ICompanyRepository companyRepository, IClientRepository clientRepository)
+
+        public CreateBudgetUseCase(IBudgetRepository repository, ICompanyRepository companyRepository, IClientRepository clientRepository, IEmailService emailService)
         {
             _repository = repository;
             _companyRepository = companyRepository;
             _clientRepository = clientRepository;
+            _emailService = emailService;
         }
 
         public async Task<BudgetResponseDTO> ExecuteAsync(BudgetRequestDTO request, int companyId)
@@ -35,6 +41,13 @@ namespace ENGER.Application.UseCases.Budget.Create
 
             Validation.Validation.InputRequired(request.observation, "observation", errors);
             Validation.Validation.MaxLength(request.observation, 255, "observation", errors);
+
+            Validation.Validation.InputRequired(request.street, "street", errors);
+            Validation.Validation.InputRequired(request.city, "city", errors);
+            Validation.Validation.InputRequired(request.neighborhood, "neighborhood", errors);
+            Validation.Validation.InputRequired(request.zipCode, "zipCode", errors);
+            Validation.Validation.InputRequired(request.stateAbbreviation, "stateAbbreviation", errors);
+            Validation.Validation.MaxLength(request.stateAbbreviation, 2, "stateAbbreviation", errors);
 
             Validation.Validation.InputRequired(request.totalStepsValue.ToString(), "totalStepsValue", errors);
             Validation.Validation.IsDecimal(request.totalStepsValue.ToString(), "totalStepsValue", errors);
@@ -149,16 +162,24 @@ namespace ENGER.Application.UseCases.Budget.Create
             }).ToList();
 
             Domain.Entities.Budget objBudget = new Domain.Entities.Budget(
-             companyId,
-             request.clientId,
-             request.userId,
-             request.description,
-             Status.BudPending,
-             request.totalStepsValue,
-             request.totalMaterialsValue,
-             request.totalValue,
-             request.observation
-         );
+                 companyId,
+                 request.clientId,
+                 request.userId,
+                 request.description,
+                 Status.BudPending,
+                 request.totalStepsValue,
+                 request.totalMaterialsValue,
+                 request.totalValue,
+                 request.observation,
+                 Guid.NewGuid(),
+                 request.street,
+                 request.number,
+                 request.city,
+                 request.neighborhood,
+                 request.zipCode,
+                 request.stateAbbreviation,
+                 request.stateDescription
+             );
 
             foreach (var stage in stages)
             {
@@ -223,7 +244,54 @@ namespace ENGER.Application.UseCases.Budget.Create
                 )).ToList()
             );
 
+            string emailBody = $@"
+                <div style='font-family: sans-serif; max-width: 600px;'>
+                    <h2 style='color: #ff6600;'>Olá, {objCClient.FantasyName}!</h2>
+                    <p>Seu orçamento para <strong>{request.description}</strong> está pronto.</p>
+                    <p><strong>Valor Total:</strong> R$ {request.totalValue:N2}</p>
+                    <p>O PDF detalhado segue em anexo para sua análise.</p>
+                    <br>
+                    <a href='https://seu-sistema.com/aprovar/{objBudgetResponse.KeyBudget}' 
+                       style='background-color: #333; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>
+                       Visualizar e Aprovar Orçamento
+                    </a>
+                </div>";
+
+            // 2. Aqui você geraria os bytes do PDF (usando QuestPDF ou similar)
+            byte[] pdfContent = GerarPdfBytes(objBudgetResponse); // Método que você vai criar
+
+            // 3. Envia o e-mail completo
+            await _emailService.SendEmailAsync(
+                "bragagleisson@gmail.com",
+                "Orçamento Disponível - ENGER",
+                emailBody,
+                pdfContent,
+                "Orcamento.pdf"
+            );
+
             return response;
+        }
+
+        public byte[] GerarPdfBytes(Domain.Entities.Budget budget)
+        {
+            // QuestPDF precisa da licença comunitária para uso gratuito
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
+            return QuestPDF.Fluent.Document.Create(container =>
+            {
+                container.Page(page =>
+                {
+                    page.Margin(50);
+                    page.Header().Text($"Orçamento: {budget.Description}").FontSize(20).FontColor("#ff6600");
+
+                    page.Content().Column(col => {
+                        col.Item().Text($"Cliente: {budget.Client?.FantasyName}");
+                        col.Item().Text($"Valor Total: R$ {budget.TotalValue:N2}");
+                        col.Item().PaddingTop(10).Text("Endereço da Obra:").Bold();
+                        col.Item().Text($"{budget.Street}, {budget.Number} - {budget.City}/{budget.StateAbbreviation}");
+                    });
+                });
+            }).GeneratePdf();
         }
     }
 }

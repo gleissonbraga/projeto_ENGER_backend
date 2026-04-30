@@ -6,6 +6,7 @@ using ENGER.Application.UseCases.Client.Create;
 using ENGER.Application.UseCases.Client.GetAll;
 using ENGER.Application.UseCases.Client.GetById;
 using ENGER.Application.UseCases.Company.Create;
+using ENGER.Application.UseCases.Construction.Create;
 using ENGER.Application.UseCases.Employee.Active;
 using ENGER.Application.UseCases.Employee.Create;
 using ENGER.Application.UseCases.Employee.GetAll;
@@ -85,6 +86,9 @@ namespace ENGER.Application.DependencyInjection
             services.AddScoped<CreateBudgetUseCase>();
             services.AddScoped<GetByIdBudgetUseCase>();
             services.AddScoped<GetAllBudgetUseCase>();
+
+            // Construction
+            services.AddScoped<CreateConstructionUseCase>();
 
             return services;
         }

@@ -8,12 +8,15 @@
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
     <Folder Include="UseCases\Budget\GetByCompany\" />
-    <Folder Include="UseCases\Budget\Update\" />
+    <Folder Include="UseCases\Construction\GetAll\" />
+    <Folder Include="UseCases\Construction\GetById\" />
+    <Folder Include="UseCases\Construction\Update\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+    <PackageReference Include="QuestPDF" Version="2026.2.4" />
   </ItemGroup>
 
   <PropertyGroup>

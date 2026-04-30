@@ -18,6 +18,10 @@ public class BudgetMap : IEntityTypeConfiguration<Budget>
             .HasColumnName("DS_ORCAMENTO")
             .HasMaxLength(255);
 
+        builder.Property(o => o.KeyBudget)
+            .HasColumnName("CHAVE_ORCAMENTO")
+            .IsRequired();
+
         builder.Property(o => o.CompanyId)
             .HasColumnName("CD_EMPRESA");
 
@@ -46,6 +50,34 @@ public class BudgetMap : IEntityTypeConfiguration<Budget>
         builder.Property(o => o.Observation)
             .HasColumnName("DS_OBSERVACAO")
             .HasMaxLength(255);
+
+        builder.Property(o => o.Street)
+            .HasColumnName("DS_LOGRADOURO")
+            .HasMaxLength(255);
+
+        builder.Property(o => o.Number)
+            .HasColumnName("NR_LOGRADOURO")
+            .HasMaxLength(20);
+
+        builder.Property(o => o.City)
+            .HasColumnName("NM_CIDADE")
+            .HasMaxLength(150);
+
+        builder.Property(o => o.Neighborhood)
+            .HasColumnName("NM_BAIRRO")
+            .HasMaxLength(150);
+
+        builder.Property(o => o.ZipCode)
+            .HasColumnName("NR_CEP")
+            .HasMaxLength(10);
+
+        builder.Property(o => o.StateAbbreviation)
+            .HasColumnName("SG_UF")
+            .HasMaxLength(2);
+
+        builder.Property(o => o.StateDescription)
+            .HasColumnName("NM_ESTADO")
+            .HasMaxLength(100);
 
         builder.Property(o => o.EntryDate)
             .HasColumnName("DT_ENTRADA")

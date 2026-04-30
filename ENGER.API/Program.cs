@@ -2,13 +2,16 @@ using DotNetEnv;
 using ENGER.Application.DependencyInjection;
 using ENGER.Infrastructure.Data.Context;
 using ENGER.Infrastructure.DependencyInjection; // Importante para enxergar o método de extensão
-using Microsoft.EntityFrameworkCore;
 using MercadoPago.Config;
+using Microsoft.EntityFrameworkCore;
+using Resend;
 
 //MercadoPagoConfig.AccessToken = "TEST-8390326417261248-030317-f61af5e647880f935dc6f37c4d846867-2685085537";
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpClient();
 
 Env.Load("../postgres.env");
 var connectionString = $"Host={Environment.GetEnvironmentVariable("DB_HOST")};" +
@@ -27,11 +30,17 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // 2. Configuração dos UseCases (Application)
 builder.Services.AddApplication();
 
-
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<ResendClientOptions>(options =>
+{
+    options.ApiToken = "re_QGSZEvx2_B7pnHr2EJE4zTbsSYaTT28s7";
+});
+
+builder.Services.AddTransient<IResend, ResendClient>();
 
 var app = builder.Build();
 

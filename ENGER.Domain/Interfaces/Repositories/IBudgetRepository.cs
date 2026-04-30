@@ -12,6 +12,7 @@ namespace ENGER.Domain.Interfaces.Repositories
         Task<Budget> AddAsync(Budget budget);
         Task<Budget> UpdateAsync(Budget budget);
         Task<Budget?> GetByIdAsync(int intBudgetId, int intCompanyId);
+        Task<Budget?> GetByKeyAsync(Guid keyBudget, int intCompanyId);
         Task<IEnumerable<Budget>> GetByBudgetCompanyAsync(int intCompanyId);
     }
 }
