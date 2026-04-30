@@ -15,6 +15,13 @@ namespace ENGER.Application.DTOs.Budget
         decimal? totalMaterialsValue,
         decimal? totalValue,
         string? observation,
+        string? street,
+        string? number,
+        string? city,
+        string? neighborhood,
+        string? zipCode,
+        string? stateAbbreviation, // UF
+        string? stateDescription,
         List<BudgetStageRequestDTO> Stages
     );
 }

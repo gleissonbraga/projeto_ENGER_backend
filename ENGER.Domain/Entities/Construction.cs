@@ -31,7 +31,13 @@ namespace ENGER.Domain.Entities
         public int? CompanyId { get; private set; }
         public int? ResponsibleId { get; private set; }
 
-        // Navigation Properties (Exemplos baseados nos IDs fornecidos)
+        public virtual ICollection<ConstructionStage> Stages { get; private set; } = new List<ConstructionStage>();
+        public virtual ICollection<ConstructionEmployee> Employees { get; private set; } = new List<ConstructionEmployee>();
+        public virtual ICollection<ConstructionPayment> Payments { get; private set; } = new List<ConstructionPayment>();
+        public virtual ICollection<ConstructionPresence> Presences { get; private set; } = new List<ConstructionPresence>();
+        public virtual ICollection<ConstructionRental> Rentals { get; private set; } = new List<ConstructionRental>();
+        public virtual ICollection<ConstructionAttachment> Attachments { get; private set; } = new List<ConstructionAttachment>();
+
         public virtual Company? Company { get; private set; }
         public virtual Budget? Budget { get; private set; }
 

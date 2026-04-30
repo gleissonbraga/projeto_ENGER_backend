@@ -21,6 +21,14 @@ namespace ENGER.Infrastructure.Data.Context
         public DbSet<BudgetLabor> BudgetLabors => Set<BudgetLabor>();
         public DbSet<BudgetMaterial> BudgetMaterial => Set<BudgetMaterial>();
         public DbSet<BudgetStage> BudgetStages => Set<BudgetStage>();
+        public DbSet<Construction> Constructions => Set<Construction>();
+        public DbSet<ConstructionAttachment> ConstructionsAttachments => Set<ConstructionAttachment>();
+        public DbSet<ConstructionEmployee> ConstructionsEmployees => Set<ConstructionEmployee>();
+        public DbSet<ConstructionPayment> ConstructionPayments => Set<ConstructionPayment>();
+        public DbSet<ConstructionPresence> ConstructionPresences => Set<ConstructionPresence>();
+        public DbSet<ConstructionRental> ConstructionRentals => Set<ConstructionRental>();
+        public DbSet<ConstructionStage> ConstructionStages => Set<ConstructionStage>();
+        public DbSet<SendEmail> SendEmails => Set<SendEmail>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

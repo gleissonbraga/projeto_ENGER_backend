@@ -31,6 +31,8 @@ namespace ENGER.Infrastructure.DependencyInjection
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
             services.AddScoped<IBudgetRepository, BudgetRepository>();
+            services.AddScoped<IConstructionRepository, ConstructionRepository>();
+            services.AddScoped<IEmailService, SendEmailRepository>();
 
             return services;
         }
