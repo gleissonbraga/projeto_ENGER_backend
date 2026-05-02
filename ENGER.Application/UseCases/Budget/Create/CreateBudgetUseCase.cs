@@ -1,18 +1,19 @@
 ﻿using ENGER.Application.DTOs.Budget;
 using ENGER.Application.DTOs.Company;
 using ENGER.Application.Exceptions;
+using ENGER.Domain.Entities;
 using ENGER.Domain.Enums;
 using ENGER.Domain.Exceptions;
 using ENGER.Domain.Interfaces.Repositories;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuestPDF.Fluent;
-using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
 
 namespace ENGER.Application.UseCases.Budget.Create
 {
@@ -22,14 +23,16 @@ namespace ENGER.Application.UseCases.Budget.Create
         private readonly ICompanyRepository _companyRepository;
         private readonly IClientRepository _clientRepository;
         private readonly IEmailService _emailService;
+        private readonly IUserRepository _userRepository;
 
 
-        public CreateBudgetUseCase(IBudgetRepository repository, ICompanyRepository companyRepository, IClientRepository clientRepository, IEmailService emailService)
+        public CreateBudgetUseCase(IBudgetRepository repository, ICompanyRepository companyRepository, IClientRepository clientRepository, IEmailService emailService, IUserRepository userRepository)
         {
             _repository = repository;
             _companyRepository = companyRepository;
             _clientRepository = clientRepository;
             _emailService = emailService;
+            _userRepository = userRepository;
         }
 
         public async Task<BudgetResponseDTO> ExecuteAsync(BudgetRequestDTO request, int companyId)
@@ -117,6 +120,11 @@ namespace ENGER.Application.UseCases.Budget.Create
 
             if (objCClient == null)
                 errors.Add(new ValidationError("client", "Cliente não encontrada"));
+
+            Domain.Entities.User objUser = await _userRepository.GetByIdAsync(companyId, (int)request.userId);
+
+            if (objUser == null)
+                errors.Add(new ValidationError("user", "Usuário não encontrado"));
 
             if (errors.Any())
                 throw new ApplicException(errors);
@@ -245,30 +253,28 @@ namespace ENGER.Application.UseCases.Budget.Create
             );
 
             string emailBody = $@"
-                <div style='font-family: sans-serif; max-width: 600px;'>
-                    <h2 style='color: #ff6600;'>Olá, {objCClient.FantasyName}!</h2>
-                    <p>Seu orçamento para <strong>{request.description}</strong> está pronto.</p>
-                    <p><strong>Valor Total:</strong> R$ {request.totalValue:N2}</p>
-                    <p>O PDF detalhado segue em anexo para sua análise.</p>
-                    <br>
-                    <a href='https://seu-sistema.com/aprovar/{objBudgetResponse.KeyBudget}' 
-                       style='background-color: #333; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>
-                       Visualizar e Aprovar Orçamento
-                    </a>
-                </div>";
+                    <div style='font-family: sans-serif; max-width: 600px;'>
+                        <h2 style='color: #ff6600;'>Olá, {objCClient.FantasyName}!</h2>
+                        <p>Seu orçamento para <strong>{request.description}</strong> está pronto.</p>
+                        <p><strong>Valor Total:</strong> R$ {objBudgetResponse.TotalValue:N2}</p>
+                        <p>O PDF detalhado segue em anexo para sua análise.</p>
+                        <br>
+                        <p>Atenciosamente,<br>Equipe ENGER</p>
+                    </div>";
 
-            // 2. Aqui você geraria os bytes do PDF (usando QuestPDF ou similar)
-            byte[] pdfContent = GerarPdfBytes(objBudgetResponse); // Método que você vai criar
+            byte[] pdfContent = GerarPdfBytes(objBudgetResponse);
 
-            // 3. Envia o e-mail completo
-            await _emailService.SendEmailAsync(
-                "bragagleisson@gmail.com",
-                "Orçamento Disponível - ENGER",
-                emailBody,
-                pdfContent,
-                "Orcamento.pdf"
+            var emailFila = new SendEmail(
+                to: "bragagleisson@gmail.com",
+                subject: "Orçamento Disponível - ENGER",
+                body: emailBody,
+                status: Status.EmailNotSent,
+                recordDate: DateTime.UtcNow,
+                fileName: "Orçamento.pdf",
+                attachmentContent: pdfContent
             );
 
+            await _emailService.RecordEmail(emailFila);
             return response;
         }
 

@@ -8,38 +8,38 @@ namespace ENGER.Domain.Entities
     public class Construction
     {
         [Key]
-        public int ConstructionId { get; private set; }
-        public string? Description { get; private set; }
-        public int? BudgetId { get; private set; }
-        public decimal? TotalPaidValue { get; private set; }
-        public decimal? TotalConstructionValue { get; private set; }
+        public int ConstructionId { get;  set; }
+        public string? Description { get;  set; }
+        public int? BudgetId { get;  set; }
+        public decimal? TotalPaidValue { get;  set; }
+        public decimal? TotalConstructionValue { get;  set; }
 
         // Address fields
-        public string? Street { get; private set; }
-        public string? Number { get; private set; }
-        public string? City { get; private set; }
-        public string? Neighborhood { get; private set; }
-        public string? ZipCode { get; private set; }
-        public string? StateAbbreviation { get; private set; } // UF
-        public string? StateDescription { get; private set; }
+        public string? Street { get;  set; }
+        public string? Number { get;  set; }
+        public string? City { get;  set; }
+        public string? Neighborhood { get;  set; }
+        public string? ZipCode { get;  set; }
+        public string? StateAbbreviation { get;  set; } // UF
+        public string? StateDescription { get;  set; }
 
-        public DateTime? StartDate { get; private set; }
-        public DateTime? EstimatedDeliveryDate { get; private set; }
-        public DateTime? FinalizationDate { get; private set; }
+        public DateTime? StartDate { get;  set; }
+        public DateTime? EstimatedDeliveryDate { get;  set; }
+        public DateTime? FinalizationDate { get;  set; }
 
-        public int Status { get; private set; } // SMALLINT no JSON
-        public int? CompanyId { get; private set; }
-        public int? ResponsibleId { get; private set; }
+        public int Status { get;  set; } // SMALLINT no JSON
+        public int? CompanyId { get;  set; }
+        public int? ResponsibleId { get;  set; }
 
-        public virtual ICollection<ConstructionStage> Stages { get; private set; } = new List<ConstructionStage>();
-        public virtual ICollection<ConstructionEmployee> Employees { get; private set; } = new List<ConstructionEmployee>();
-        public virtual ICollection<ConstructionPayment> Payments { get; private set; } = new List<ConstructionPayment>();
-        public virtual ICollection<ConstructionPresence> Presences { get; private set; } = new List<ConstructionPresence>();
-        public virtual ICollection<ConstructionRental> Rentals { get; private set; } = new List<ConstructionRental>();
-        public virtual ICollection<ConstructionAttachment> Attachments { get; private set; } = new List<ConstructionAttachment>();
+        public virtual ICollection<ConstructionStage> Stages { get;  set; } = new List<ConstructionStage>();
+        public virtual ICollection<ConstructionEmployee> Employees { get;  set; } = new List<ConstructionEmployee>();
+        public virtual ICollection<ConstructionPayment> Payments { get;  set; } = new List<ConstructionPayment>();
+        public virtual ICollection<ConstructionPresence> Presences { get;  set; } = new List<ConstructionPresence>();
+        public virtual ICollection<ConstructionRental> Rentals { get;  set; } = new List<ConstructionRental>();
+        public virtual ICollection<ConstructionAttachment> Attachments { get;  set; } = new List<ConstructionAttachment>();
 
-        public virtual Company? Company { get; private set; }
-        public virtual Budget? Budget { get; private set; }
+        public virtual Company? Company { get;  set; }
+        public virtual Budget? Budget { get;  set; }
 
         private Construction() { }
 

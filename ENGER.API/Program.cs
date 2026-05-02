@@ -2,6 +2,7 @@ using DotNetEnv;
 using ENGER.Application.DependencyInjection;
 using ENGER.Infrastructure.Data.Context;
 using ENGER.Infrastructure.DependencyInjection; // Importante para enxergar o método de extensão
+using ENGER.Infrastructure.Services;
 using MercadoPago.Config;
 using Microsoft.EntityFrameworkCore;
 using Resend;
@@ -41,6 +42,7 @@ builder.Services.Configure<ResendClientOptions>(options =>
 });
 
 builder.Services.AddTransient<IResend, ResendClient>();
+builder.Services.AddHostedService<EmailWorkerService>();
 
 var app = builder.Build();
 
