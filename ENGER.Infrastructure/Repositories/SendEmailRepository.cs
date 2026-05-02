@@ -37,6 +37,9 @@ namespace ENGER.Infrastructure.Repositories
 
         public async Task SendEmailAsync(string to, string subject, string body, byte[] attachment = null, string fileName = null)
         {
+            // 1. Verifique se o cliente da Resend foi injetado (opcional, mas seguro)
+            if (_resend == null) throw new Exception("O serviço Resend não foi inicializado.");
+
             var message = new Resend.EmailMessage();
 
             message.From = "onboarding@resend.dev";
@@ -46,6 +49,7 @@ namespace ENGER.Infrastructure.Repositories
 
             if (attachment != null)
             {
+                // 2. CORREÇÃO: Inicialize a lista se ela estiver nula
                 if (message.Attachments == null)
                 {
                     message.Attachments = new List<Resend.EmailAttachment>();
@@ -53,7 +57,7 @@ namespace ENGER.Infrastructure.Repositories
 
                 message.Attachments.Add(new Resend.EmailAttachment
                 {
-                    Filename = fileName ?? "arquivo.pdf",
+                    Filename = fileName ?? "documento.pdf",
                     Content = Convert.ToBase64String(attachment)
                 });
             }

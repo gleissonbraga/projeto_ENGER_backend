@@ -10,49 +10,61 @@ namespace ENGER.Infrastructure.Services
 {
     public class EmailWorkerService : BackgroundService
     {
-        private readonly SendEmailRepository _sendEmailRepository;
+        // 1. Removido o campo do repositório daqui
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<EmailWorkerService> _logger;
         private readonly int _intervalMinutes = 2;
 
-        public EmailWorkerService(IServiceProvider serviceProvider, ILogger<EmailWorkerService> logger, SendEmailRepository sendEmailRepository)
+        // 2. Removido o repositório dos parâmetros do construtor
+        public EmailWorkerService(IServiceProvider serviceProvider, ILogger<EmailWorkerService> logger)
         {
             _serviceProvider = serviceProvider;
             _logger = logger;
-            _sendEmailRepository = sendEmailRepository;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Serviço de Fila de E-mail iniciado.");
+            _logger.LogInformation(">>> MONITOR: Serviço de Fila de E-mail iniciado.");
 
             while (!stoppingToken.IsCancellationRequested)
             {
+                _logger.LogInformation($">>> MONITOR: Verificando fila de e-mails às {DateTime.Now:HH:mm:ss}");
+                
                 try
                 {
                     using (var scope = _serviceProvider.CreateScope())
                     {
-                        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                        // 3. Agora buscamos o repositório e o serviço de e-mail dentro do escopo
                         var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+                        var repo = scope.ServiceProvider.GetRequiredService<SendEmailRepository>();
 
-                        IEnumerable<SendEmail> lstEmails = await _sendEmailRepository.GetEmailsNoSend();
+                        var lstEmails = await repo.GetEmailsNoSend();
 
-                        foreach (var email in lstEmails)
+                        if (lstEmails == null || !lstEmails.Any())
                         {
-                            _logger.LogInformation($"Processando e-mail ID: {email.EmailId}");
+                            _logger.LogInformation(">>> MONITOR: Nenhum e-mail pendente encontrado.");
+                        }
+                        else
+                        {
+                            foreach (var email in lstEmails)
+                            {
+                                _logger.LogInformation($">>> MONITOR: Enviando e-mail {email.EmailId} para {email.To}");
 
-                            await emailService.SendEmailAsync(email.To, email.Subject, email.Body);
+                                // Envia usando os bytes que estão na entidade
+                                await emailService.SendEmailAsync(email.To, email.Subject, email.Body, email.AttachmentContent, email.FileName);
 
-                            email.Status = Domain.Enums.Status.EmailSent;
-                            email.SentAt = DateTime.UtcNow;
+                                email.Status = Domain.Enums.Status.EmailSent;
+                                email.SentAt = DateTime.UtcNow;
 
-                            await _sendEmailRepository.UpdateStatusEmail(email);
+                                await repo.UpdateStatusEmail(email);
+                                _logger.LogInformation($">>> MONITOR: Status atualizado para e-mail {email.EmailId}");
+                            }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError($"Erro ao processar fila de e-mail: {ex.Message}");
+                    _logger.LogError($">>> MONITOR ERRO: {ex.Message}");
                 }
 
                 await Task.Delay(TimeSpan.FromMinutes(_intervalMinutes), stoppingToken);

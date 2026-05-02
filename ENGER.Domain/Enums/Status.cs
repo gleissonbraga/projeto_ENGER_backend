@@ -51,10 +51,14 @@ namespace ENGER.Domain.Enums
         [Description("Budget under review")]
         BudInReview = 19,
 
+        // E-mail
         [Description("Email send")]
         EmailSent = 20,
         [Description("Email not send")]
         EmailNotSent = 21,
+
+        // Construction
+
 
     }
 }
