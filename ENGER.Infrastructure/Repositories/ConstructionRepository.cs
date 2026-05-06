@@ -1,8 +1,10 @@
 ﻿using ENGER.Domain.Entities;
 using ENGER.Domain.Interfaces.Repositories;
 using ENGER.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,14 +29,14 @@ namespace ENGER.Infrastructure.Repositories
             return construction;
         }
 
-        public Task<IEnumerable<Construction>> GetByCompanyAsync(int intCompanyId)
+        public async Task<IEnumerable<Construction>> GetByCompanyAsync(int intCompanyId)
         {
-            throw new NotImplementedException();
+            return await _context.Constructions.Where(x => x.CompanyId == intCompanyId).ToListAsync();
         }
 
-        public Task<Construction?> GetByIdAsync(int intConstructionId, int intCompanyId)
+        public async Task<Construction?> GetByIdAsync(int intConstructionId, int intCompanyId)
         {
-            throw new NotImplementedException();
+            return await _context.Constructions.FirstOrDefaultAsync(x => x.ConstructionId == intConstructionId && x.CompanyId == intCompanyId);
         }
 
         public async Task<Construction> UpdateAsync(Construction construction)

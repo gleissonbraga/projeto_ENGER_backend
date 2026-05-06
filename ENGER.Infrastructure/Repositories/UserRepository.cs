@@ -55,6 +55,11 @@ namespace ENGER.Infrastructure.Repositories
             return await _context.Users.FirstOrDefaultAsync(x => x.CompanyId == companyId && x.Email == email);
         }
 
+        public async Task<User> GetByEmailLogin(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+
         public async Task<User?> GetByIdAsync(int userid, int intCompanyId)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.CompanyId == intCompanyId && x.UserId == userid);
