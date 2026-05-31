@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ENGER.Domain.Entities
 {
@@ -12,6 +13,7 @@ namespace ENGER.Domain.Entities
         public int? Status { get; private set; } // SMALLINT no JSON
 
         // Navigation Property
+        [JsonIgnore]
         public virtual Construction? Construction { get; private set; }
 
         private ConstructionStage() { }

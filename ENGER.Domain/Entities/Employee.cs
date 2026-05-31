@@ -47,8 +47,8 @@ namespace ENGER.Domain.Entities
             EmployeeName = employeeName;
             RegistrationNumber = registrationNumber;
             NumberGeneralRegistration = numberGeneralRegistration;
-            DateOfBirth = dateOfBirth;
-            AdmissionDate = admissionDate;
+            DateOfBirth = DateTime.SpecifyKind(dateOfBirth, DateTimeKind.Utc).AddHours(12);
+            AdmissionDate = DateTime.SpecifyKind(admissionDate, DateTimeKind.Utc).AddHours(12);
             PhoneNumber = phoneNumber;
             CellNumber = cellNumber;
             Email = email;

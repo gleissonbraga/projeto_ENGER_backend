@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ENGER.Domain.Entities
 {
@@ -16,6 +17,7 @@ namespace ENGER.Domain.Entities
         public string? ReturnedBy { get; private set; }
         public int? ConstructionId { get; private set; }
 
+        [JsonIgnore]
         public virtual Construction? Construction { get; private set; }
 
         private ConstructionRental() { }

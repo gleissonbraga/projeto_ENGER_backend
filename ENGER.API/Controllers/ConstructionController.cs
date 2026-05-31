@@ -1,11 +1,8 @@
-﻿using ENGER.Application.DTOs.Budget;
-using ENGER.Application.DTOs.Construction;
+﻿using ENGER.Application.DTOs.Construction;
 using ENGER.Application.Exceptions;
-using ENGER.Application.UseCases.Budget.Create;
-using ENGER.Application.UseCases.Budget.GetAll;
-using ENGER.Application.UseCases.Budget.GetByID;
 using ENGER.Application.UseCases.Construction.Create;
-using Microsoft.AspNetCore.Http;
+using ENGER.Application.UseCases.Construction.GetAll;
+using ENGER.Application.UseCases.Construction.GetById;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ENGER.API.Controllers
@@ -15,12 +12,17 @@ namespace ENGER.API.Controllers
     public class ConstructionController : ControllerBase
     {
         public readonly CreateConstructionUseCase _createConstructionUseCase;
+        public readonly GetByIdConstructionUseCase _getByIdConstructionUseCase;
+        public readonly GetAllConstructionsUseCase _getAllConstructionUseCase;
+        public readonly UpdateConstructionUseCase _updateConstructionUseCase;
 
-        public ConstructionController(CreateConstructionUseCase createBudgetUseCase)
+        public ConstructionController(CreateConstructionUseCase createBudgetUseCase, GetByIdConstructionUseCase getByIdConstructionUseCase, GetAllConstructionsUseCase getAllConstructionUseCase, UpdateConstructionUseCase updateConstructionUseCase)
         {
             _createConstructionUseCase = createBudgetUseCase;
+            _getByIdConstructionUseCase = getByIdConstructionUseCase;
+            _getAllConstructionUseCase = getAllConstructionUseCase;
+            _updateConstructionUseCase = updateConstructionUseCase;
         }
-
 
         [HttpPost("{keyBudget}/{companyId}")]
         public async Task<IActionResult> Create([FromRoute] Guid keyBudget, [FromRoute] int companyId)
@@ -28,6 +30,60 @@ namespace ENGER.API.Controllers
             try
             {
                 Domain.Entities.Construction objBudget = await _createConstructionUseCase.ExecuteAsync(keyBudget, companyId);
+                return Ok(objBudget);
+            }
+            catch (ApplicException err)
+            {
+                return BadRequest(new { errors = err.lstErrors });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Ocorreu um erro interno inesperado.", detail = ex.Message });
+            }
+        }
+
+        [HttpGet("{constructionId}/{companyId}")]
+        public async Task<IActionResult> GetById([FromRoute] int constructionId, [FromRoute] int companyId)
+        {
+            try
+            {
+                Domain.Entities.Construction objBudget = await _getByIdConstructionUseCase.ExecuteAsync(constructionId, companyId);
+                return Ok(objBudget);
+            }
+            catch (ApplicException err)
+            {
+                return BadRequest(new { errors = err.lstErrors });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Ocorreu um erro interno inesperado.", detail = ex.Message });
+            }
+        }
+
+        [HttpGet("{companyId}")]
+        public async Task<IActionResult> GetAll([FromRoute] int companyId)
+        {
+            try
+            {
+                IEnumerable<Domain.Entities.Construction> objBudget = await _getAllConstructionUseCase.ExecuteAsync(companyId);
+                return Ok(objBudget);
+            }
+            catch (ApplicException err)
+            {
+                return BadRequest(new { errors = err.lstErrors });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Ocorreu um erro interno inesperado.", detail = ex.Message });
+            }
+        }
+
+        [HttpPut("{constructionId}/{companyId}")]
+        public async Task<IActionResult> Update([FromRoute] int constructionId, [FromRoute] int companyId, [FromBody] ConstructionRequestDTO request)
+        {
+            try
+            {
+                Domain.Entities.Construction objBudget = await _updateConstructionUseCase.ExecuteAsync(request, constructionId, companyId);
                 return Ok(objBudget);
             }
             catch (ApplicException err)

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ENGER.Domain.Entities
 {
@@ -10,6 +11,7 @@ namespace ENGER.Domain.Entities
         public int? ConstructionId { get; private set; }
 
         public virtual Employee? Employee { get; private set; }
+        [JsonIgnore]
         public virtual Construction? Construction { get; private set; }
 
         private ConstructionEmployee() { }

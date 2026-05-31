@@ -44,15 +44,13 @@ namespace ENGER.Application.UseCases.Budget.Update
                 throw new ApplicException(errors);
             }
 
-            // Impede edição se já estiver aprovado ou em obra
             if (objBudget.Status == Status.BudApproved)
             {
                 errors.Add(new ValidationError("budget", "Orçamentos aprovados não podem ser editados."));
                 throw new ApplicException(errors);
             }
 
-            // --- 3. VALIDAÇÃO DE CLIENTE E EMPRESA ---
-            var objCClient = await _clientRepository.GetByIdAsync(companyId, (int)request.clientId);
+            var objCClient = await _clientRepository.GetByIdAsync((int)request.clientId, companyId);
             if (objCClient == null)
                 errors.Add(new ValidationError("client", "Cliente não encontrado"));
 

@@ -17,5 +17,6 @@ namespace ENGER.Domain.Interfaces.Repositories
         Task ActiveUser(User user);
         Task<IEnumerable<User>> GetByCompanyIdAsync(int companyId);
         Task<User> GetByEmail(string email, int companyId);
+        Task<User> GetByEmailLogin(string email);
     }
 }

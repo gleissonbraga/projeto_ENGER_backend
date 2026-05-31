@@ -6,11 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
     <Folder Include="UseCases\Budget\GetByCompany\" />
-    <Folder Include="UseCases\Construction\GetAll\" />
-    <Folder Include="UseCases\Construction\GetById\" />
-    <Folder Include="UseCases\Construction\Update\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,9 @@
 ﻿using ENGER.Domain.Interfaces.Repositories;
+using ENGER.Domain.Services;
 using ENGER.Infrastructure.Data.Context;
 using ENGER.Infrastructure.Repositories;
+using ENGER.Infrastructure.Security;
+using ENGER.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +37,8 @@ namespace ENGER.Infrastructure.DependencyInjection
             services.AddScoped<IConstructionRepository, ConstructionRepository>();
             services.AddScoped<IEmailService, SendEmailRepository>();
             services.AddScoped<SendEmailRepository>();
+            services.AddScoped<IPasswordService, PasswordService>();
+            services.AddScoped<ITokenService, TokenService>();
 
             return services;
         }
