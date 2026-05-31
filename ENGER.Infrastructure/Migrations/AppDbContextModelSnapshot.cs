@@ -31,6 +31,11 @@ namespace ENGER.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BudgetId"));
 
+                    b.Property<string>("City")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("NM_CIDADE");
+
                     b.Property<int?>("ClientId")
                         .HasColumnType("integer")
                         .HasColumnName("CD_CLIENTE");
@@ -48,14 +53,43 @@ namespace ENGER.Infrastructure.Migrations
                         .HasColumnType("timestamptz")
                         .HasColumnName("DT_ENTRADA");
 
+                    b.Property<Guid>("KeyBudget")
+                        .HasColumnType("uuid")
+                        .HasColumnName("CHAVE_ORCAMENTO");
+
+                    b.Property<string>("Neighborhood")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("NM_BAIRRO");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("NR_LOGRADOURO");
+
                     b.Property<string>("Observation")
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)")
                         .HasColumnName("DS_OBSERVACAO");
 
+                    b.Property<string>("StateAbbreviation")
+                        .HasMaxLength(2)
+                        .HasColumnType("character varying(2)")
+                        .HasColumnName("SG_UF");
+
+                    b.Property<string>("StateDescription")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("NM_ESTADO");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("STATUS_ORCAMENTO");
+
+                    b.Property<string>("Street")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("DS_LOGRADOURO");
 
                     b.Property<decimal?>("TotalMaterialsValue")
                         .HasColumnType("decimal(18,2)")
@@ -76,6 +110,11 @@ namespace ENGER.Infrastructure.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("integer")
                         .HasColumnName("CD_USUARIO");
+
+                    b.Property<string>("ZipCode")
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)")
+                        .HasColumnName("NR_CEP");
 
                     b.HasKey("BudgetId");
 
@@ -464,6 +503,357 @@ namespace ENGER.Infrastructure.Migrations
                     b.ToTable("EMPRESAS", (string)null);
                 });
 
+            modelBuilder.Entity("ENGER.Domain.Entities.Construction", b =>
+                {
+                    b.Property<int>("ConstructionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_OBRA");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ConstructionId"));
+
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_ORCAMENTO");
+
+                    b.Property<string>("City")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("CIDADE");
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_EMPRESA");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("DS_OBRA");
+
+                    b.Property<DateTime?>("EstimatedDeliveryDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ENTREGA_PREVISTA");
+
+                    b.Property<DateTime?>("FinalizationDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_FINALIZACAO");
+
+                    b.Property<string>("Neighborhood")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("BAIRRO");
+
+                    b.Property<string>("Number")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("NR_LOGRADOURO");
+
+                    b.Property<int?>("ResponsibleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_RESPONSAVEL");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_INICIO");
+
+                    b.Property<string>("StateAbbreviation")
+                        .HasMaxLength(2)
+                        .HasColumnType("character varying(2)")
+                        .HasColumnName("UF");
+
+                    b.Property<string>("StateDescription")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("DS_ESTADO");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("STATUS_OBRA");
+
+                    b.Property<string>("Street")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("LOGRADOURO");
+
+                    b.Property<decimal?>("TotalConstructionValue")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("VL_TOTAL_OBRA");
+
+                    b.Property<decimal?>("TotalPaidValue")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("VL_TOTAL_PAGO");
+
+                    b.Property<string>("ZipCode")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("CEP");
+
+                    b.HasKey("ConstructionId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("OBRAS", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionAttachment", b =>
+                {
+                    b.Property<int>("ConstructionAttachmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_OBRA_ANEXO");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ConstructionAttachmentId"));
+
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ConstructionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_OBRA");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("DS_ANEXO");
+
+                    b.Property<string>("ImageUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("URL_IMAGEM");
+
+                    b.HasKey("ConstructionAttachmentId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("ConstructionId");
+
+                    b.ToTable("OBRA_ANEXOS", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionEmployee", b =>
+                {
+                    b.Property<int>("ConstructionEmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_OBRA_FUNCIONARIO");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ConstructionEmployeeId"));
+
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ConstructionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_OBRA");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_FUNCIONARIO");
+
+                    b.HasKey("ConstructionEmployeeId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("ConstructionId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("OBRAS_FUNCIONARIOS", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionPayment", b =>
+                {
+                    b.Property<int>("ConstructionPaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_PAG_OBRA");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ConstructionPaymentId"));
+
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ConstructionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_OBRA");
+
+                    b.Property<int?>("ConstructionId1")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_PAGAMENTO");
+
+                    b.Property<int?>("PaymentTypeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_TP_PAGAMENTO");
+
+                    b.Property<decimal?>("PaymentValue")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("VL_PAGAMENTO");
+
+                    b.Property<int?>("StageId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_ETAPA");
+
+                    b.HasKey("ConstructionPaymentId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("ConstructionId");
+
+                    b.HasIndex("ConstructionId1");
+
+                    b.HasIndex("PaymentTypeId");
+
+                    b.ToTable("OBRAS_PAGAMENTO", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionPresence", b =>
+                {
+                    b.Property<int>("PresenceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_PRESENCA");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PresenceId"));
+
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ConstructionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_OBRA");
+
+                    b.Property<int?>("ConstructionId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_FUNCIONARIO");
+
+                    b.Property<bool>("IsPresent")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IN_PRESENTE");
+
+                    b.Property<DateTime?>("PresenceDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_PRESENCA");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_USUARIO");
+
+                    b.HasKey("PresenceId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("ConstructionId");
+
+                    b.HasIndex("ConstructionId1");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("OBRA_PRESENCA", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionRental", b =>
+                {
+                    b.Property<int>("RentalId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_ALUGUEL");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RentalId"));
+
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ConstructionId")
+                        .HasColumnType("integer")
+                        .HasColumnName("CD_OBRA");
+
+                    b.Property<int?>("ConstructionId1")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("DaysCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("NR_DIAS");
+
+                    b.Property<DateTime?>("EntryDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_ENTRADA");
+
+                    b.Property<string>("EquipmentDescription")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("DS_EQUIPAMENTO");
+
+                    b.Property<DateTime?>("ExitDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("DT_SAIDA");
+
+                    b.Property<string>("ReceivedBy")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("NM_RECEBIDO_POR");
+
+                    b.Property<decimal?>("RentalValue")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("VL_ALUGUEL");
+
+                    b.Property<string>("ReturnedBy")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("NM_DEVOLVIDO_POR");
+
+                    b.HasKey("RentalId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("ConstructionId");
+
+                    b.HasIndex("ConstructionId1");
+
+                    b.ToTable("ALUGUEIS", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionStage", b =>
+                {
+                    b.Property<int>("StageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StageId"));
+
+                    b.Property<int?>("BudgetId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("ConstructionId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Order")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("StageId");
+
+                    b.HasIndex("BudgetId");
+
+                    b.HasIndex("ConstructionId");
+
+                    b.ToTable("ConstructionStages");
+                });
+
             modelBuilder.Entity("ENGER.Domain.Entities.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
@@ -545,6 +935,22 @@ namespace ENGER.Infrastructure.Migrations
                     b.ToTable("FUNCIONARIOS", (string)null);
                 });
 
+            modelBuilder.Entity("ENGER.Domain.Entities.PaymentType", b =>
+                {
+                    b.Property<int>("PaymentTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PaymentTypeId"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.HasKey("PaymentTypeId");
+
+                    b.ToTable("PaymentType");
+                });
+
             modelBuilder.Entity("ENGER.Domain.Entities.Position", b =>
                 {
                     b.Property<int>("PositionId")
@@ -569,6 +975,56 @@ namespace ENGER.Infrastructure.Migrations
                     b.HasIndex("CompanyId");
 
                     b.ToTable("CARGOS", (string)null);
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.SendEmail", b =>
+                {
+                    b.Property<Guid>("EmailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("ID_EMAIL");
+
+                    b.Property<byte[]>("AttachmentContent")
+                        .HasColumnType("bytea")
+                        .HasColumnName("BL_ANEXO");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("DS_CORPO");
+
+                    b.Property<string>("FileName")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("NM_ARQUIVO");
+
+                    b.Property<DateTime>("RecordDate")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("DT_GRAVACAO");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("DT_ENVIO");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer")
+                        .HasColumnName("STATUS");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("DS_ASSUNTO");
+
+                    b.Property<string>("To")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("DS_DESTINATARIO");
+
+                    b.HasKey("EmailId");
+
+                    b.ToTable("ENVIA_EMAIL", (string)null);
                 });
 
             modelBuilder.Entity("ENGER.Domain.Entities.Subscription", b =>
@@ -784,6 +1240,138 @@ namespace ENGER.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("ENGER.Domain.Entities.Construction", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Budget", "Budget")
+                        .WithMany()
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("ENGER.Domain.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Budget");
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionAttachment", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Budget", null)
+                        .WithMany("Attachments")
+                        .HasForeignKey("BudgetId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", "Construction")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ConstructionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Construction");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionEmployee", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Budget", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("BudgetId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", "Construction")
+                        .WithMany("Employees")
+                        .HasForeignKey("ConstructionId");
+
+                    b.HasOne("ENGER.Domain.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
+                    b.Navigation("Construction");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionPayment", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Budget", null)
+                        .WithMany("Payments")
+                        .HasForeignKey("BudgetId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", "Construction")
+                        .WithMany()
+                        .HasForeignKey("ConstructionId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", null)
+                        .WithMany("Payments")
+                        .HasForeignKey("ConstructionId1");
+
+                    b.HasOne("ENGER.Domain.Entities.PaymentType", "PaymentType")
+                        .WithMany()
+                        .HasForeignKey("PaymentTypeId");
+
+                    b.Navigation("Construction");
+
+                    b.Navigation("PaymentType");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionPresence", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Budget", null)
+                        .WithMany("Presences")
+                        .HasForeignKey("BudgetId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", "Construction")
+                        .WithMany()
+                        .HasForeignKey("ConstructionId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", null)
+                        .WithMany("Presences")
+                        .HasForeignKey("ConstructionId1");
+
+                    b.HasOne("ENGER.Domain.Entities.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("ENGER.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Construction");
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionRental", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Budget", null)
+                        .WithMany("Rentals")
+                        .HasForeignKey("BudgetId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", "Construction")
+                        .WithMany()
+                        .HasForeignKey("ConstructionId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", null)
+                        .WithMany("Rentals")
+                        .HasForeignKey("ConstructionId1");
+
+                    b.Navigation("Construction");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.ConstructionStage", b =>
+                {
+                    b.HasOne("ENGER.Domain.Entities.Budget", null)
+                        .WithMany("StagesConstruction")
+                        .HasForeignKey("BudgetId");
+
+                    b.HasOne("ENGER.Domain.Entities.Construction", "Construction")
+                        .WithMany("Stages")
+                        .HasForeignKey("ConstructionId");
+
+                    b.Navigation("Construction");
+                });
+
             modelBuilder.Entity("ENGER.Domain.Entities.Employee", b =>
                 {
                     b.HasOne("ENGER.Domain.Entities.Company", "Company")
@@ -838,7 +1426,19 @@ namespace ENGER.Infrastructure.Migrations
 
             modelBuilder.Entity("ENGER.Domain.Entities.Budget", b =>
                 {
+                    b.Navigation("Attachments");
+
+                    b.Navigation("Employees");
+
+                    b.Navigation("Payments");
+
+                    b.Navigation("Presences");
+
+                    b.Navigation("Rentals");
+
                     b.Navigation("Stages");
+
+                    b.Navigation("StagesConstruction");
                 });
 
             modelBuilder.Entity("ENGER.Domain.Entities.BudgetStage", b =>
@@ -851,6 +1451,21 @@ namespace ENGER.Infrastructure.Migrations
             modelBuilder.Entity("ENGER.Domain.Entities.Company", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("ENGER.Domain.Entities.Construction", b =>
+                {
+                    b.Navigation("Attachments");
+
+                    b.Navigation("Employees");
+
+                    b.Navigation("Payments");
+
+                    b.Navigation("Presences");
+
+                    b.Navigation("Rentals");
+
+                    b.Navigation("Stages");
                 });
 #pragma warning restore 612, 618
         }

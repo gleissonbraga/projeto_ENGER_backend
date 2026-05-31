@@ -49,7 +49,18 @@ namespace ENGER.Domain.Enums
         [Description("Budget on hold")]
         BudOnHold = 18,
         [Description("Budget under review")]
-        BudInReview = 18
-        
+        BudInReview = 19,
+
+        // E-mail
+        [Description("Email send")]
+        EmailSent = 20,
+        [Description("Email not send")]
+        EmailNotSent = 21,
+        [Description("Error")]
+        EmailError = 22,
+
+        // Construction
+
+
     }
 }

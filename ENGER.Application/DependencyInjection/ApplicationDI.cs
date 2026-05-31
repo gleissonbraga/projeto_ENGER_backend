@@ -1,17 +1,23 @@
-﻿using ENGER.Application.UseCases.Budget.Create;
+﻿using ENGER.Application.UseCases.Auth.GetLoggedUser;
+using ENGER.Application.UseCases.Budget.Create;
 using ENGER.Application.UseCases.Budget.GetAll;
 using ENGER.Application.UseCases.Budget.GetByID;
+using ENGER.Application.UseCases.Budget.Update;
 using ENGER.Application.UseCases.Card.GetByIdCompany;
 using ENGER.Application.UseCases.Client.Create;
 using ENGER.Application.UseCases.Client.GetAll;
 using ENGER.Application.UseCases.Client.GetById;
 using ENGER.Application.UseCases.Company.Create;
+using ENGER.Application.UseCases.Construction.Create;
+using ENGER.Application.UseCases.Construction.GetAll;
+using ENGER.Application.UseCases.Construction.GetById;
 using ENGER.Application.UseCases.Employee.Active;
 using ENGER.Application.UseCases.Employee.Create;
 using ENGER.Application.UseCases.Employee.GetAll;
 using ENGER.Application.UseCases.Employee.GetById;
 using ENGER.Application.UseCases.Employee.Inactive;
 using ENGER.Application.UseCases.Employee.Update;
+using ENGER.Application.UseCases.Login;
 using ENGER.Application.UseCases.Position.Create;
 using ENGER.Application.UseCases.Subscription.Create;
 using ENGER.Application.UseCases.SubscriptionType.Create;
@@ -37,7 +43,7 @@ namespace ENGER.Application.DependencyInjection
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             // Company
-            services.AddScoped<UpdatePaymentUseCase>();
+            services.AddScoped<CreateCompanyUseCase>();
 
             // Users
             services.AddScoped<CreateUsersUseCase>();
@@ -85,6 +91,18 @@ namespace ENGER.Application.DependencyInjection
             services.AddScoped<CreateBudgetUseCase>();
             services.AddScoped<GetByIdBudgetUseCase>();
             services.AddScoped<GetAllBudgetUseCase>();
+            services.AddScoped<UpdateBudgetUseCase>();
+            services.AddScoped<GetByKeyBudgetUseCase>();
+
+            // Construction
+            services.AddScoped<CreateConstructionUseCase>();
+            services.AddScoped<GetAllConstructionsUseCase>();
+            services.AddScoped<GetByIdConstructionUseCase>();
+            services.AddScoped<UpdateConstructionUseCase>();
+
+            // Login
+            services.AddScoped<LoginUseCase>();
+            services.AddScoped<GetLoggedUserUseCase>();
 
             return services;
         }
