@@ -9,7 +9,7 @@ namespace ENGER.Domain.Enums
     public enum Admin
     {
         Master = 7, // Dono do site
-        Especial = 6, // Owner
+        Especial = 6, // Owner Company
         Gestor = 5, // Engenheiro/Arquiteto
         Encarregado = 4, // Fiscal Obra
         Administrador = 3, // Administrador Obra/ Administrador Geral

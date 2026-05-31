@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Configurations\" />
     <Folder Include="Migrations\" />
+	<FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <PropertyGroup>

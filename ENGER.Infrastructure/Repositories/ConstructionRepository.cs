@@ -31,7 +31,14 @@ namespace ENGER.Infrastructure.Repositories
 
         public async Task<IEnumerable<Construction>> GetByCompanyAsync(int intCompanyId)
         {
-            return await _context.Constructions.Where(x => x.CompanyId == intCompanyId).ToListAsync();
+            return await _context.Constructions
+                    .Include(x => x.Stages)
+                    .Include(x => x.Attachments)
+                    .Include(x => x.Presences)
+                    .Include(x => x.Rentals)
+                    .Include(x => x.Employees)
+                    .Where(x => x.CompanyId == intCompanyId)
+                    .ToListAsync();
         }
 
         public async Task<Construction?> GetByIdAsync(int intConstructionId, int intCompanyId)

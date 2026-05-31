@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ENGER.Domain.Entities
 {
@@ -14,6 +15,7 @@ namespace ENGER.Domain.Entities
         public decimal? PaymentValue { get; private set; }
 
         // Navigation Properties
+        [JsonIgnore]
         public virtual Construction? Construction { get; private set; }
         public virtual PaymentType? PaymentType { get; private set; }
 

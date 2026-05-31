@@ -5,6 +5,7 @@ using ENGER.Domain.Entities;
 using ENGER.Domain.Enums;
 using ENGER.Domain.Exceptions;
 using ENGER.Domain.Interfaces.Repositories;
+using ENGER.Domain.Services;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -24,15 +25,17 @@ namespace ENGER.Application.UseCases.Budget.Create
         private readonly IClientRepository _clientRepository;
         private readonly IEmailService _emailService;
         private readonly IUserRepository _userRepository;
+        private readonly IUserContext _userContext;
 
 
-        public CreateBudgetUseCase(IBudgetRepository repository, ICompanyRepository companyRepository, IClientRepository clientRepository, IEmailService emailService, IUserRepository userRepository)
+        public CreateBudgetUseCase(IBudgetRepository repository, ICompanyRepository companyRepository, IClientRepository clientRepository, IEmailService emailService, IUserRepository userRepository, IUserContext userContex)
         {
             _repository = repository;
             _companyRepository = companyRepository;
             _clientRepository = clientRepository;
             _emailService = emailService;
             _userRepository = userRepository;
+            _userContext = userContex;
         }
 
         public async Task<BudgetResponseDTO> ExecuteAsync(BudgetRequestDTO request, int companyId)
@@ -116,12 +119,14 @@ namespace ENGER.Application.UseCases.Budget.Create
                 errors.Add(new ValidationError("company", "Empresa não encontrada"));
 
 
-            Domain.Entities.Client objCClient = await _clientRepository.GetByIdAsync(companyId, (int)request.clientId);
+            Domain.Entities.Client objCClient = await _clientRepository.GetByIdAsync((int)request.clientId, companyId);
 
             if (objCClient == null)
                 errors.Add(new ValidationError("client", "Cliente não encontrada"));
 
-            Domain.Entities.User objUser = await _userRepository.GetByIdAsync(companyId, (int)request.userId);
+            var userId = _userContext.GetUserId();
+
+            Domain.Entities.User objUser = await _userRepository.GetByIdAsync(companyId, userId);
 
             if (objUser == null)
                 errors.Add(new ValidationError("user", "Usuário não encontrado"));
@@ -252,14 +257,46 @@ namespace ENGER.Application.UseCases.Budget.Create
                 )).ToList()
             );
 
+            string linkAceite = $"http://localhost:3000/proposta/{objBudgetResponse.KeyBudget}";
+
             string emailBody = $@"
-                    <div style='font-family: sans-serif; max-width: 600px;'>
-                        <h2 style='color: #ff6600;'>Olá, {objCClient.FantasyName}!</h2>
-                        <p>Seu orçamento para <strong>{request.description}</strong> está pronto.</p>
-                        <p><strong>Valor Total:</strong> R$ {objBudgetResponse.TotalValue:N2}</p>
-                        <p>O PDF detalhado segue em anexo para sua análise.</p>
-                        <br>
-                        <p>Atenciosamente,<br>Equipe ENGER</p>
+                    <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;'>
+    
+                        <!-- Cabeçalho -->
+                        <div style='background-color: #000000; padding: 25px; text-align: center;'>
+                            <h1 style='color: #ff6600; margin: 0; font-size: 26px; letter-spacing: 1px;'>ENGER</h1>
+                        </div>
+
+                        <!-- Corpo -->
+                        <div style='padding: 30px; color: #1a1a1a; line-height: 1.6;'>
+                            <h2 style='color: #ff6600; margin-top: 0;'>Olá, {objBudgetResponse.Client?.FantasyName}!</h2>
+        
+                            <p>O orçamento para a obra <strong>{objBudgetResponse.Description}</strong> está pronto para sua análise.</p>
+        
+                            <p style='font-size: 16px;'><strong>Valor Total:</strong> R$ {objBudgetResponse.TotalValue:N2}</p>
+        
+                            <p>O PDF detalhado segue em anexo. Para iniciar o projeto e transformar este orçamento em uma obra ativa, clique no botão abaixo para revisar os termos e confirmar o aceite:</p>
+
+                            <!-- Botão CTA (Call to Action) -->
+                            <div style='text-align: center; margin: 35px 0;'>
+                                <a href='{linkAceite}' 
+                                   style='background-color: #ff6600; color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 4px; font-weight: bold; display: inline-block; font-size: 16px; text-transform: uppercase;'>
+                                   Analisar e Aprovar Orçamento
+                                </a>
+                            </div>
+
+                            <!-- Fallback de Link -->
+                            <p style='font-size: 13px; color: #666666; margin-bottom: 5px;'>Se o botão não funcionar, copie e cole o link abaixo no seu navegador:</p>
+                            <p style='font-size: 12px; color: #4a90e2; word-break: break-all; margin-top: 0;'>
+                                <a href='{linkAceite}' style='color: #ff6600;'>{linkAceite}</a>
+                            </p>
+                        </div>
+
+                        <!-- Rodapé -->
+                        <div style='background-color: #f8f9fa; padding: 20px; text-align: center; color: #888888; font-size: 12px; border-top: 1px solid #e0e0e0;'>
+                            <p style='margin: 0;'>Este é um e-mail automático enviado pelo sistema ENGER.</p>
+                            <p style='margin: 5px 0 0 0;'>&copy; {DateTime.Now.Year} ENGER - Gestão de Obras</p>
+                        </div>
                     </div>";
 
             byte[] pdfContent = GerarPdfBytes(objBudgetResponse);
@@ -281,23 +318,195 @@ namespace ENGER.Application.UseCases.Budget.Create
         public byte[] GerarPdfBytes(Domain.Entities.Budget budget)
         {
             // QuestPDF precisa da licença comunitária para uso gratuito
-            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+            QuestPDF.Settings.License = LicenseType.Community;
 
-            return QuestPDF.Fluent.Document.Create(container =>
+            return Document.Create(container =>
             {
                 container.Page(page =>
                 {
-                    page.Margin(50);
-                    page.Header().Text($"Orçamento: {budget.Description}").FontSize(20).FontColor("#ff6600");
+                    page.Size(PageSizes.A4);
+                    page.Margin(40);
+                    page.PageColor(Colors.White);
+                    page.DefaultTextStyle(x => x.FontSize(10).FontFamily(Fonts.Arial));
 
-                    page.Content().Column(col => {
-                        col.Item().Text($"Cliente: {budget.Client?.FantasyName}");
-                        col.Item().Text($"Valor Total: R$ {budget.TotalValue:N2}");
-                        col.Item().PaddingTop(10).Text("Endereço da Obra:").Bold();
-                        col.Item().Text($"{budget.Street}, {budget.Number} - {budget.City}/{budget.StateAbbreviation}");
+                    // CABEÇALHO DO DOCUMENTO
+                    page.Header().Row(row =>
+                    {
+                        row.RelativeItem().Column(col =>
+                        {
+                            col.Item().Text($"Orçamento: {budget.Description}")
+                                .FontSize(20).SemiBold().FontColor("#ff6600");
+                            col.Item().Text($"ID do Orçamento: {budget.BudgetId} | Status: {budget.Status}")
+                                .FontSize(11).FontColor(Colors.Grey.Darken2);
+                        });
+
+                        row.ConstantItem(120).AlignRight().Column(col =>
+                        {
+                            col.Item().Text($"Data: {budget.EntryDate:dd/MM/yyyy}");
+                            if (budget.UpdatedAt.HasValue)
+                                col.Item().Text($"Atualizado: {budget.UpdatedAt.Value:dd/MM/yyyy}");
+                        });
+                    });
+
+                    // CORPO DO DOCUMENTO
+                    page.Content().PaddingVertical(15).Column(col =>
+                    {
+                        // 1. DADOS DO CLIENTE
+                        if (budget.Client != null)
+                        {
+                            col.Item().Background(Colors.Grey.Lighten4).Padding(10).Column(c =>
+                            {
+                                c.Item().Text("Dados do Cliente").FontSize(14).SemiBold().FontColor(Colors.Black);
+                                c.Item().PaddingBottom(5).LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
+
+                                c.Item().Text($"Nome/Fantasia: {budget.Client.FantasyName} ({budget.Client.ReasonName})");
+                                c.Item().Text($"CNPJ/CPF: {budget.Client.RegistrationNumber} | IE/RG: {budget.Client.RGIENumber}");
+                                c.Item().Text($"Endereço: {budget.Client.Street}, {budget.Client.Number} - {budget.Client.Neighborhood}");
+                                c.Item().Text($"Cidade/UF: {budget.Client.City}/{budget.Client.FederativeUnit} - CEP: {budget.Client.ZipCode}");
+                                c.Item().Text($"Contatos: {budget.Client.PhoneNumber} / {budget.Client.CellNumber} | E-mail: {budget.Client.Email}");
+                            });
+                        }
+
+                        // 2. DETALHAMENTO DAS ETAPAS
+                        col.Item().PaddingTop(20).Text("Detalhamento das Etapas").FontSize(16).SemiBold().FontColor("#ff6600");
+
+                        if (budget.Stages != null && budget.Stages.Any())
+                        {
+                            foreach (var stage in budget.Stages.OrderBy(s => s.Order))
+                            {
+                                col.Item().PaddingTop(15).Background(Colors.Grey.Lighten3).Padding(5)
+                                    .Text($"Etapa {stage.Order}: {stage.Description}").SemiBold().FontSize(12);
+
+                                // Tabela de Materiais da Etapa
+                                if (stage.Materials != null && stage.Materials.Any())
+                                {
+                                    col.Item().PaddingTop(5).Text("Materiais").SemiBold();
+                                    col.Item().PaddingTop(2).Table(table =>
+                                    {
+                                        table.ColumnsDefinition(columns =>
+                                        {
+                                            columns.RelativeColumn(3); // Descrição
+                                            columns.RelativeColumn(1); // Unidade
+                                            columns.RelativeColumn(1); // Qtd
+                                            columns.RelativeColumn(1); // Valor Unit.
+                                            columns.RelativeColumn(1); // Subtotal
+                                            columns.RelativeColumn(1); // Fornecido por
+                                        });
+
+                                        table.Header(header =>
+                                        {
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Text("Descrição").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Text("Unid.").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).AlignRight().Text("Qtd").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).AlignRight().Text("V. Unit").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).AlignRight().Text("Subtotal").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).AlignCenter().Text("Cliente Fornece?").SemiBold();
+                                        });
+
+                                        foreach (var mat in stage.Materials)
+                                        {
+                                            var subtotal = mat.PlannedQuantity * mat.UnitCost;
+                                            var fornecidoCliente = mat.IsClientProvided ? "Sim" : "Não";
+
+                                            table.Cell().Text(mat.Description);
+                                            table.Cell().Text(mat.Unit);
+                                            table.Cell().AlignRight().Text(mat.PlannedQuantity.ToString("N2"));
+                                            table.Cell().AlignRight().Text($"R$ {mat.UnitCost:N2}");
+                                            table.Cell().AlignRight().Text($"R$ {subtotal:N2}");
+                                            table.Cell().AlignCenter().Text(fornecidoCliente).FontColor(mat.IsClientProvided ? Colors.Red.Medium : Colors.Black);
+                                        }
+                                    });
+                                }
+
+                                // Tabela de Mão de Obra da Etapa
+                                if (stage.Labors != null && stage.Labors.Any())
+                                {
+                                    col.Item().PaddingTop(10).Text("Mão de Obra").SemiBold();
+                                    col.Item().PaddingTop(2).Table(table =>
+                                    {
+                                        table.ColumnsDefinition(columns =>
+                                        {
+                                            columns.RelativeColumn(2); // Função/Role
+                                            columns.RelativeColumn(1); // Horas
+                                            columns.RelativeColumn(1); // Valor Hora
+                                            columns.RelativeColumn(1); // Encargos
+                                            columns.RelativeColumn(1); // Subtotal
+                                        });
+
+                                        table.Header(header =>
+                                        {
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Text("Função (Role ID)").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).AlignRight().Text("Horas").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).AlignRight().Text("Valor/Hora").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).AlignRight().Text("Encargos").SemiBold();
+                                            header.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).AlignRight().Text("Subtotal").SemiBold();
+                                        });
+
+                                        foreach (var lab in stage.Labors)
+                                        {
+                                            var subtotal = lab.PlannedHours * lab.HourlyRate; // Ajuste o cálculo se os encargos somarem aqui
+
+                                            table.Cell().Text($"Função ID: {lab.RoleId}"); // Substitua pelo nome da função se tiver no DTO
+                                            table.Cell().AlignRight().Text(lab.PlannedHours.ToString("N2"));
+                                            table.Cell().AlignRight().Text($"R$ {lab.HourlyRate:N2}");
+                                            table.Cell().AlignRight().Text($"R$ {lab.SocialCharges:N2}");
+                                            table.Cell().AlignRight().Text($"R$ {subtotal:N2}");
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                        // 3. OBSERVAÇÕES
+                        if (!string.IsNullOrWhiteSpace(budget.Observation))
+                        {
+                            col.Item().PaddingTop(20).Text("Observações").FontSize(14).SemiBold();
+                            col.Item().PaddingTop(5).Text(budget.Observation).Italic();
+                        }
+
+                        // 4. RESUMO FINANCEIRO E TOTAIS (Alinhado à direita no fim da página)
+                        col.Item().PaddingTop(30).LineHorizontal(2).LineColor("#ff6600");
+                        col.Item().PaddingTop(10).AlignRight().Column(c =>
+                        {
+                            c.Item().Text($"Total de Materiais: R$ {budget.TotalMaterialsValue:N2}").FontSize(12);
+                            c.Item().Text($"Total de Etapas/Mão de Obra: R$ {budget.TotalStepsValue:N2}").FontSize(12);
+                            c.Item().PaddingTop(5).Text($"VALOR TOTAL: R$ {budget.TotalValue:N2}")
+                                .FontSize(18).ExtraBold().FontColor("#ff6600");
+                        });
+                    });
+
+                    // RODAPÉ COM PAGINAÇÃO
+                    page.Footer().AlignCenter().Text(x =>
+                    {
+                        x.Span("Página ");
+                        x.CurrentPageNumber();
+                        x.Span(" de ");
+                        x.TotalPages();
                     });
                 });
             }).GeneratePdf();
         }
+
+        //public byte[] GerarPdfBytes(Domain.Entities.Budget budget)
+        //{
+        //    // QuestPDF precisa da licença comunitária para uso gratuito
+        //    QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
+        //    return QuestPDF.Fluent.Document.Create(container =>
+        //    {
+        //        container.Page(page =>
+        //        {
+        //            page.Margin(50);
+        //            page.Header().Text($"Orçamento: {budget.Description}").FontSize(20).FontColor("#ff6600");
+
+        //            page.Content().Column(col => {
+        //                col.Item().Text($"Cliente: {budget.Client?.FantasyName}");
+        //                col.Item().Text($"Valor Total: R$ {budget.TotalValue:N2}");
+        //                col.Item().PaddingTop(10).Text("Endereço da Obra:").Bold();
+        //                col.Item().Text($"{budget.Street}, {budget.Number} - {budget.City}/{budget.StateAbbreviation}");
+        //            });
+        //        });
+        //    }).GeneratePdf();
+        //}
     }
 }

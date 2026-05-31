@@ -17,7 +17,7 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
 
-    public string GenerateToken(User user)
+    public string GenerateToken(User user, int subscriptionTypeId)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -31,7 +31,9 @@ public class TokenService : ITokenService
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("CompanyId", user.CompanyId.ToString()),
-                new Claim("AdminLevel", ((int)user.Admin).ToString())
+                new Claim("AdminLevel", ((int)user.Admin).ToString()),
+                new Claim("subscriptionTypeId", (subscriptionTypeId).ToString()),
+                new Claim("UserId", (user.UserId).ToString())
             }),
             Expires = DateTime.UtcNow.AddHours(8), // Tempo de validade do crachá
             SigningCredentials = new SigningCredentials(

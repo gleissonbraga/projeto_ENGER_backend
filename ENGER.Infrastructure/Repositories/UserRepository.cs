@@ -57,12 +57,12 @@ namespace ENGER.Infrastructure.Repositories
 
         public async Task<User> GetByEmailLogin(string email)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            return await _context.Users.Include(x => x.Company).FirstOrDefaultAsync(x => x.Email == email);
         }
 
         public async Task<User?> GetByIdAsync(int userid, int intCompanyId)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.CompanyId == intCompanyId && x.UserId == userid);
+            return await _context.Users.Include(x => x.Company).FirstOrDefaultAsync(x => x.CompanyId == intCompanyId && x.UserId == userid);
         }
 
         public async Task InactiveUser(User user)

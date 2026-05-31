@@ -86,7 +86,7 @@ namespace ENGER.Application.UseCases.Employee.Update
             objEmployee.Email = request.email;
             objEmployee.PositionId = request.positionId;
             objEmployee.UpdateDate = DateTime.UtcNow;
-            objEmployee.Status = (Status)request.status;
+            objEmployee.Status = Status.Active;
 
             await _repository.UpdateAsync(objEmployee);
 

@@ -98,9 +98,9 @@ namespace ENGER.Application.UseCases.Subscription.Create
 
             if (intStatus == (int)Status.SubRejected || intStatus == (int)Status.SubPending || intStatus == (int)Status.SubInProcess || intStatus == (int)Status.SubCancelled) 
             {
-                objSubscriptionReturned.ExpirationDate = DateTime.Now;
-                objSubscriptionReturned.StartDate = DateTime.Now;
-                objSubscriptionReturned.PaymentDate = DateTime.Now;
+                objSubscriptionReturned.ExpirationDate = DateTime.UtcNow;
+                objSubscriptionReturned.StartDate = DateTime.UtcNow;
+                objSubscriptionReturned.PaymentDate = DateTime.UtcNow;
             }
 
             await _repository.UpdateAsync(objSubscriptionReturned);
