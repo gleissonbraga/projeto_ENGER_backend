@@ -25,7 +25,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("EngerPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://10.0.0.128:3000", "https://enger.vercel.app/")
+        policy.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://10.0.0.128:3000", "https://enger.vercel.app")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
