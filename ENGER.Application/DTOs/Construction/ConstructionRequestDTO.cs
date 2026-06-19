@@ -40,6 +40,7 @@ namespace ENGER.Application.DTOs.Construction
 
         // Etapas da Obra
     public record ConstructionStageDTO(
+        int? stageId,
         string? Description,
         int? Order,
         int? Status
@@ -52,6 +53,7 @@ namespace ENGER.Application.DTOs.Construction
 
     // Aluguéis de equipamentos
     public record ConstructionRentalDTO(
+        int? rentalId,
         string? EquipmentDescription,
         decimal? RentalValue,
         int? DaysCount,
@@ -63,6 +65,7 @@ namespace ENGER.Application.DTOs.Construction
 
     // Fotos e documentos iniciais
     public record ConstructionAttachmentDTO(
+        int? attachmentId,
         string? Description,
         string? ImageUrl
     );

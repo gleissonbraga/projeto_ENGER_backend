@@ -6,10 +6,10 @@ namespace ENGER.Domain.Entities
     public class ConstructionAttachment
     {
         [Key]
-        public int ConstructionAttachmentId { get; private set; }
-        public string? Description { get; private set; }
-        public string? ImageUrl { get; private set; }
-        public int? ConstructionId { get; private set; }
+        public int ConstructionAttachmentId { get; set; }
+        public string? Description { get; set; }
+        public string? ImageUrl { get; set; }
+        public int? ConstructionId { get; set; }
 
         [JsonIgnore]
         public virtual Construction? Construction { get; private set; }
