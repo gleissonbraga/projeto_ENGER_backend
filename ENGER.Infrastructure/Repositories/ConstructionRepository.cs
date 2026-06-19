@@ -37,13 +37,23 @@ namespace ENGER.Infrastructure.Repositories
                     .Include(x => x.Presences)
                     .Include(x => x.Rentals)
                     .Include(x => x.Employees)
+                        .ThenInclude(x => x.Employee)
+                    .Include(x => x.Payments)
                     .Where(x => x.CompanyId == intCompanyId)
                     .ToListAsync();
         }
 
         public async Task<Construction?> GetByIdAsync(int intConstructionId, int intCompanyId)
         {
-            return await _context.Constructions.FirstOrDefaultAsync(x => x.ConstructionId == intConstructionId && x.CompanyId == intCompanyId);
+            return await _context.Constructions
+             .Include(x => x.Stages)       // 🚀 AGORA ELE TRAZ AS ETAPAS
+             .Include(x => x.Attachments)  // 🚀 E OS ANEXOS
+             .Include(x => x.Presences)    // 🚀 E AS PRESENÇAS
+             .Include(x => x.Rentals)      // 🚀 E OS ALUGUÉIS
+             .Include(x => x.Employees)    // 🚀 E OS FUNCIONÁRIOS
+                .ThenInclude(x => x.Employee)
+             .Include(x => x.Payments)     // 🚀 E OS PAGAMENTOS
+             .FirstOrDefaultAsync(x => x.ConstructionId == intConstructionId && x.CompanyId == intCompanyId);
         }
 
         public async Task<Construction> UpdateAsync(Construction construction)

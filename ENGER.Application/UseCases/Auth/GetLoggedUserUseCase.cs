@@ -18,7 +18,8 @@ public class GetLoggedUserUseCase
         {
             UserName = _userContext.GetUserName(),
             AdminLevel = _userContext.GetAdminLevel(),
-            CompanyId = _userContext.GetCompanyId()
+            CompanyId = _userContext.GetCompanyId(),
+            UserId = _userContext.GetUserId()
         };
     }
 }
@@ -28,4 +29,5 @@ public class LoggedUserResponse
     public string UserName { get; set; } = string.Empty;
     public int AdminLevel { get; set; }
     public int CompanyId { get; set; }
+    public int UserId { get; set; }
 }

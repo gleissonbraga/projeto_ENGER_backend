@@ -88,7 +88,7 @@ namespace ENGER.Application.UseCases.Company.Create
 
             Domain.Entities.User userResponse = await _userRepository.AddAsync(user);
 
-            var userDTO = new UserResponseDTO(userResponse.UserId, userResponse.Username, userResponse.Email, (short)userResponse.Admin, userResponse.EntryDate, userResponse.UpdateDate, (short)userResponse.Status);
+            var userDTO = new UserResponseDTO(userResponse.UserId, userResponse.Username, userResponse.Email, (short)userResponse.Admin, userResponse.EntryDate, userResponse.UpdateDate, (short)userResponse.Status, null);
 
             return new CompanyResponseDTO(company.CompanyId, company.ReasonName, 
                             company.FantasyName, company.RegistrationNumber, company.RGIENumber, 

@@ -7,18 +7,18 @@ namespace ENGER.Domain.Entities
     public class ConstructionRental
     {
         [Key]
-        public int RentalId { get; private set; }
-        public string? EquipmentDescription { get; private set; }
-        public decimal? RentalValue { get; private set; }
-        public int? DaysCount { get; private set; }
-        public DateTime? EntryDate { get; private set; }
-        public DateTime? ExitDate { get; private set; }
-        public string? ReceivedBy { get; private set; }
-        public string? ReturnedBy { get; private set; }
-        public int? ConstructionId { get; private set; }
+        public int RentalId { get; set; }
+        public string? EquipmentDescription { get; set; }
+        public decimal? RentalValue { get; set; }
+        public int? DaysCount { get; set; }
+        public DateTime? EntryDate { get; set; }
+        public DateTime? ExitDate { get; set; }
+        public string? ReceivedBy { get; set; }
+        public string? ReturnedBy { get; set; }
+        public int? ConstructionId { get; set; }
 
         [JsonIgnore]
-        public virtual Construction? Construction { get; private set; }
+        public virtual Construction? Construction { get; set; }
 
         private ConstructionRental() { }
 
