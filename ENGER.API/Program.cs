@@ -15,9 +15,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Carrega os ambientes ANTES de tentar ler a JWT_KEY
-Env.Load("../postgres.env");
-Env.Load("../environment.env");
+if (builder.Environment.IsDevelopment())
+{
+    if (System.IO.File.Exists("../postgres.env")) Env.Load("../postgres.env");
+    if (System.IO.File.Exists("../environment.env")) Env.Load("../environment.env");
+}
 
 builder.Services.AddCors(options =>
 {
