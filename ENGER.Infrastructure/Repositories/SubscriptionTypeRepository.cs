@@ -1,6 +1,7 @@
 ﻿using ENGER.Domain.Entities;
 using ENGER.Domain.Interfaces.Repositories;
 using ENGER.Infrastructure.Data.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,30 +20,41 @@ namespace ENGER.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task AddAsync(SubscriptionType subscriptionType)
+        public async Task DeleteAsync(SubscriptionType subscriptionType)
         {
-            await _context.SubscriptionTypes.AddAsync(subscriptionType);
+            _context.SubscriptionTypes.Remove(subscriptionType);
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task<IEnumerable<SubscriptionType>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            IEnumerable<SubscriptionType> subsTypes = await _context.SubscriptionTypes.ToListAsync();
+
+            return subsTypes;
         }
 
-        public Task<IEnumerable<SubscriptionType>> GetAllAsync()
+        public async Task<SubscriptionType> AddAsync(SubscriptionType subscriptionType)
         {
-            throw new NotImplementedException();
+            await _context.SubscriptionTypes.AddAsync(subscriptionType);
+            await _context.SaveChangesAsync();
+
+            return subscriptionType;
         }
 
-        public Task<Company?> GetByIdAsync(int subscriptionId)
+        public async Task<SubscriptionType?> GetByIdAsync(int subscriptionId)
         {
-            throw new NotImplementedException();
+            SubscriptionType subTypes = await _context.SubscriptionTypes.FindAsync(subscriptionId);
+            await _context.SaveChangesAsync();
+
+            return subTypes;
         }
 
-        public Task UpdateAsync(SubscriptionType subscriptionType)
+        public async Task<SubscriptionType> UpdateAsync(SubscriptionType subscriptionType)
         {
-            throw new NotImplementedException();
+            _context.SubscriptionTypes.Update(subscriptionType);
+            await _context.SaveChangesAsync();
+
+            return subscriptionType;
         }
     }
 }

@@ -10,24 +10,56 @@ namespace ENGER.Domain.Enums
     public enum Status
     {
         // All
-
         Active = 1,
         Inactive = 2,
 
         // Subscription
         [Description("Active subscription")]
-        SubActive = 1,
+        SubActive = 3,
         [Description("Inactive subscription")]
-        SubInactive = 2,
+        SubInactive = 4,
         [Description("Canceled subscription")]
-        SubCanceled = 3,
+        SubCancelled = 5,
         [Description("Subscription in test")]
-        SubTest = 4,
+        SubTest = 6,
         [Description("Expired subscription")]
-        SubExpired = 5,
+        SubExpired = 7,
         [Description("Pending subscription")]
-        SubPending = 6,
+        SubPending = 8,
+        [Description("In Proccess subscription")]
+        SubInProcess = 9,
+        [Description("Subscription Rejected")]
+        SubRejected = 10,
+        [Description("Subscription Refunded")]
+        SubRefunded = 11,
 
+        // Budget
+        [Description("Pending budget")]
+        BudPending = 12,
+        [Description("Approved budget")]
+        BudApproved = 13,
+        [Description("Rejected budget")]
+        BudRejected = 14,
+        [Description("Budget in progress")]
+        BudInProgress = 15,
+        [Description("Completed budget")]
+        BudCompleted = 16,
+        [Description("Canceled budget")]
+        BudCanceled = 17,
+        [Description("Budget on hold")]
+        BudOnHold = 18,
+        [Description("Budget under review")]
+        BudInReview = 19,
+
+        // E-mail
+        [Description("Email send")]
+        EmailSent = 20,
+        [Description("Email not send")]
+        EmailNotSent = 21,
+        [Description("Error")]
+        EmailError = 22,
+
+        // Construction
 
 
     }

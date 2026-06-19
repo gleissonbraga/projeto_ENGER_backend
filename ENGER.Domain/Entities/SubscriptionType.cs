@@ -13,13 +13,15 @@ namespace ENGER.Domain.Entities
         public int SubscriptionTypeId { get; set; }
         public string DescriptionSubscriptionType { get; set; }
         public decimal SubscriptionValue { get; set; }
+        public int SubscriptionMonth { get; set; }
 
         protected SubscriptionType() { }
 
-        public SubscriptionType(string descriptionSubscriptionType, decimal subscriptionValue)
+        public SubscriptionType(string descriptionSubscriptionType, decimal subscriptionValue, int subscriptionMonth)
         {
             DescriptionSubscriptionType = descriptionSubscriptionType;
             SubscriptionValue = subscriptionValue;
+            SubscriptionMonth = subscriptionMonth;
         }
     }
 }

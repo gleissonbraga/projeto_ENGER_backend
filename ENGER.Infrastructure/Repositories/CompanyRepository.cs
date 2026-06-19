@@ -58,9 +58,10 @@ namespace ENGER.Infrastructure.Repositories
             return objCompany;
         }
 
-        public Task UpdateAsync(Company company)
+        public async Task UpdateAsync(Company company)
         {
-            throw new NotImplementedException();
+            _context.Companies.Update(company);
+            await _context.SaveChangesAsync();
         }
 
     }
