@@ -31,8 +31,8 @@ namespace ENGER.Application.UseCases.User.UpdateUser
 
             Validation.Validation.EmailFormat(request.email, "email", errors);
 
-            Validation.Validation.InputRequired(request.password, "password", errors);
-            Validation.Validation.MaxLength(request.password, 60, "password", errors);
+            //Validation.Validation.InputRequired(request.password, "password", errors);
+            //Validation.Validation.MaxLength(request.password, 60, "password", errors);
 
             Validation.Validation.MaxEnum(request.admin, "admin", 7, errors);
 
@@ -46,11 +46,14 @@ namespace ENGER.Application.UseCases.User.UpdateUser
             if (errors.Count > 0)
                 throw new ApplicException(errors);
 
-            string strHashPassword = BCrypt.Net.BCrypt.HashPassword(request.password);
+            if (!string.IsNullOrEmpty(request.password))
+            {
+                string strHashPassword = BCrypt.Net.BCrypt.HashPassword(request.password);
+                objUser.Password = strHashPassword;
+            }
 
             objUser.Username = request.username;
             objUser.Email = request.email;
-            objUser.Password = strHashPassword;
             objUser.UpdateDate = DateTime.UtcNow;
             objUser.Admin = (Admin)request.admin;
             objUser.Status = (Status)request.status;
@@ -58,7 +61,7 @@ namespace ENGER.Application.UseCases.User.UpdateUser
             Domain.Entities.User objuserResponse = await _repository.UpdateAsync(objUser);
 
             UserResponseDTO userDTO = new UserResponseDTO(objuserResponse.UserId, objuserResponse.Username, objuserResponse.Email, 
-                (short)objuserResponse.Admin, objuserResponse.EntryDate, objuserResponse.UpdateDate, (short)objuserResponse.Status);
+                (short)objuserResponse.Admin, objuserResponse.EntryDate, objuserResponse.UpdateDate, (short)objuserResponse.Status, null);
 
             return userDTO;
         }

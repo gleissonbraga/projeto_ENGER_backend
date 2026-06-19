@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ENGER.Domain.Entities
@@ -21,7 +22,8 @@ namespace ENGER.Domain.Entities
         public Status? Status { get; set; }
 
         public int CompanyId { get; set; }
-        public Company Company { get; set; }
+        [JsonIgnore]
+        public virtual Company Company { get; set; }
 
         protected User() { }
 

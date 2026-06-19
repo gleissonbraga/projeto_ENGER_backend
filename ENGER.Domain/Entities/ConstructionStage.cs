@@ -6,11 +6,11 @@ namespace ENGER.Domain.Entities
     public class ConstructionStage
     {
         [Key]
-        public int StageId { get; private set; }
-        public string? Description { get; private set; }
-        public int? Order { get; private set; } // NR_ORDEM
-        public int? ConstructionId { get; private set; }
-        public int? Status { get; private set; } // SMALLINT no JSON
+        public int StageId { get; set; }
+        public string? Description { get; set; }
+        public int? Order { get; set; } // NR_ORDEM
+        public int? ConstructionId { get; set; }
+        public int? Status { get; set; } // SMALLINT no JSON
 
         // Navigation Property
         [JsonIgnore]

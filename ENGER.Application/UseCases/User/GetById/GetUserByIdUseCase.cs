@@ -34,7 +34,8 @@ namespace ENGER.Application.UseCases.User.GetUserById
                 (short)objUser.Admin,
                 objUser.EntryDate,
                 objUser.UpdateDate,
-                (short)objUser.Status
+                (short)objUser.Status,
+                objUser.Company
             );
 
             return userDTO;

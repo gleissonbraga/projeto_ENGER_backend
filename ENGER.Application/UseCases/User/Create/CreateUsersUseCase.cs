@@ -60,7 +60,8 @@ namespace ENGER.Application.UseCases.User.Create
                  (short)objUser.Admin,
                  objUser.EntryDate,
                  objUser.UpdateDate,
-                 (short)objUser.Status
+                 (short)objUser.Status,
+                 null
              );
 
             return userDTO;
