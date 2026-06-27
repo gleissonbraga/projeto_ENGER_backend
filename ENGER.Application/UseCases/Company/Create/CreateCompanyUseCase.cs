@@ -84,7 +84,9 @@ namespace ENGER.Application.UseCases.Company.Create
 
             int companyId = await _repository.AddAsync(company);
 
-            Domain.Entities.User user = new Domain.Entities.User(request.username, request.emailUser, request.password, Admin.Especial, DateTime.UtcNow, DateTime.UtcNow, companyId, Status.Active);
+            string strHashPassword = BCrypt.Net.BCrypt.HashPassword(request.password);
+
+            Domain.Entities.User user = new Domain.Entities.User(request.username, request.emailUser, strHashPassword, Admin.Especial, DateTime.UtcNow, DateTime.UtcNow, companyId, Status.Active);
 
             Domain.Entities.User userResponse = await _userRepository.AddAsync(user);
 
