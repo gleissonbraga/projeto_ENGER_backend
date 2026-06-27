@@ -26,7 +26,7 @@ namespace ENGER.API.Controllers
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = false,
+                    Secure = true,
                     //Secure = true, // em produção deve ficar true
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.UtcNow.AddHours(8)
