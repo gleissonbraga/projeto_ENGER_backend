@@ -28,7 +28,7 @@ namespace ENGER.API.Controllers
                     HttpOnly = true,
                     Secure = true,
                     //Secure = true, // em produção deve ficar true
-                    SameSite = SameSiteMode.Strict,
+                    SameSite = SameSiteMode.None,
                     Expires = DateTime.UtcNow.AddHours(8)
                 };
 
