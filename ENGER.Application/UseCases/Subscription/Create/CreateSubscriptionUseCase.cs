@@ -96,9 +96,14 @@ namespace ENGER.Application.UseCases.Subscription.Create
             objSubscriptionReturned.SubscriptionIdMercadoPago = subscriptionIdMP;
             objSubscriptionReturned.StatusSubscription = (Status)intStatus;
 
+            int months = objSubType.SubscriptionMonth;
+
+            objSubscription.StartDate = DateTime.UtcNow;
+            objSubscription.PaymentDate = DateTime.UtcNow;
+
             if (intStatus == (int)Status.SubRejected || intStatus == (int)Status.SubPending || intStatus == (int)Status.SubInProcess || intStatus == (int)Status.SubCancelled) 
             {
-                objSubscriptionReturned.ExpirationDate = DateTime.UtcNow;
+                objSubscriptionReturned.ExpirationDate = DateTime.UtcNow.AddMonths(months);
                 objSubscriptionReturned.StartDate = DateTime.UtcNow;
                 objSubscriptionReturned.PaymentDate = DateTime.UtcNow;
             }

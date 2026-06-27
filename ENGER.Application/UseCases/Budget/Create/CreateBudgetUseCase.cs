@@ -257,7 +257,7 @@ namespace ENGER.Application.UseCases.Budget.Create
                 )).ToList()
             );
 
-            string linkAceite = $"http://localhost:3000/proposta/{objBudgetResponse.CompanyId}/{objBudgetResponse.KeyBudget}";
+            string linkAceite = $"http://enger.vercel.app/proposta/{objBudgetResponse.CompanyId}/{objBudgetResponse.KeyBudget}";
 
             string emailBody = $@"
                     <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;'>
@@ -302,7 +302,7 @@ namespace ENGER.Application.UseCases.Budget.Create
             byte[] pdfContent = GerarPdfBytes(objBudgetResponse);
 
             var emailFila = new SendEmail(
-                to: "bragagleisson@gmail.com",
+                to: objCClient.Email,
                 subject: "Orçamento Disponível - ENGER",
                 body: emailBody,
                 status: Status.EmailNotSent,
