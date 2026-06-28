@@ -299,7 +299,7 @@ namespace ENGER.Application.UseCases.Budget.Create
             byte[] pdfContent = GerarPdfBytes(objBudgetResponse);
 
             var emailFila = new SendEmail(
-                to: objCClient.Email,
+                to: "bragagleisson@gmail.com",
                 subject: "Orçamento Disponível - ENGER",
                 body: emailBody,
                 status: Status.EmailNotSent,
