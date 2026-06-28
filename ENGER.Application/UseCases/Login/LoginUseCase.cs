@@ -42,8 +42,8 @@ namespace ENGER.Application.UseCases.Login
 
             Domain.Entities.Subscription subscription = await _subscriptionRepository.GetBySubscriptionKeyAccess((Guid)user.Company.SubscriptionCode);
 
-            //if(DateTime.UtcNow > subscription.ExpirationDate)
-            //    throw new ApplicException("login", "Sua assinatura está vencida");
+            if (DateTime.UtcNow > subscription.ExpirationDate)
+                throw new ApplicException("login", "Sua assinatura está vencida");
 
             var token = _tokenService.GenerateToken(user, subscription.TypeSubscriptionId);
 

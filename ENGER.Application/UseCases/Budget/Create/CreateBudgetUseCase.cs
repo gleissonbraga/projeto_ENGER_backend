@@ -45,9 +45,6 @@ namespace ENGER.Application.UseCases.Budget.Create
             Validation.Validation.InputRequired(request.description, "description", errors);
             Validation.Validation.MaxLength(request.description, 255, "description", errors);
 
-            Validation.Validation.InputRequired(request.observation, "observation", errors);
-            Validation.Validation.MaxLength(request.observation, 255, "observation", errors);
-
             Validation.Validation.InputRequired(request.street, "street", errors);
             Validation.Validation.InputRequired(request.city, "city", errors);
             Validation.Validation.InputRequired(request.neighborhood, "neighborhood", errors);
@@ -126,7 +123,7 @@ namespace ENGER.Application.UseCases.Budget.Create
 
             var userId = _userContext.GetUserId();
 
-            Domain.Entities.User objUser = await _userRepository.GetByIdAsync(companyId, userId);
+            Domain.Entities.User objUser = await _userRepository.GetByIdAsync(userId, companyId);
 
             if (objUser == null)
                 errors.Add(new ValidationError("user", "Usuário não encontrado"));
