@@ -63,5 +63,13 @@ namespace ENGER.Infrastructure.Repositories
 
             return construction;
         }
+
+        public async Task<ConstructionPayment> AddPaymentAsync(ConstructionPayment payment)
+        {
+            _context.Update(payment);
+            await _context.SaveChangesAsync();
+
+            return payment;
+        }
     }
 }

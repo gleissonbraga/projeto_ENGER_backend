@@ -49,5 +49,10 @@ namespace ENGER.Infrastructure.Repositories
             _context.Subscriptions.Update(subscription);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Subscription>> GetAllSubcriptions()
+        {
+            return await _context.Subscriptions.ToListAsync();
+        }
     }
 }

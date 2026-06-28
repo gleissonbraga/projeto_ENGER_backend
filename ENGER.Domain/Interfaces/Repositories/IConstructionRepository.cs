@@ -10,6 +10,7 @@ namespace ENGER.Domain.Interfaces.Repositories
     public interface IConstructionRepository
     {
         Task<Construction> AddAsync(Construction construction);
+        Task<ConstructionPayment> AddPaymentAsync(ConstructionPayment payment);
         Task<Construction> UpdateAsync(Construction construction);
         Task<Construction?> GetByIdAsync(int intConstructionId, int intCompanyId);
         Task<IEnumerable<Construction>> GetByCompanyAsync(int intCompanyId);

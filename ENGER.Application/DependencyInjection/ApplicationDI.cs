@@ -9,6 +9,7 @@ using ENGER.Application.UseCases.Client.GetAll;
 using ENGER.Application.UseCases.Client.GetById;
 using ENGER.Application.UseCases.Company.Create;
 using ENGER.Application.UseCases.Construction.Create;
+using ENGER.Application.UseCases.Construction.CreatePayment;
 using ENGER.Application.UseCases.Construction.GetAll;
 using ENGER.Application.UseCases.Construction.GetById;
 using ENGER.Application.UseCases.Employee.Active;
@@ -99,6 +100,7 @@ namespace ENGER.Application.DependencyInjection
             services.AddScoped<GetAllConstructionsUseCase>();
             services.AddScoped<GetByIdConstructionUseCase>();
             services.AddScoped<UpdateConstructionUseCase>();
+            services.AddScoped<CreatePaymentUseCase>();
 
             // Login
             services.AddScoped<LoginUseCase>();

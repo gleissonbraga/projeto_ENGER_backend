@@ -14,5 +14,6 @@ namespace ENGER.Domain.Interfaces.Repositories
         Task DeleteAsync(int id);
         Task<Subscription?> GetByIdAsync(int subscriptionId);
         Task<Subscription?> GetBySubscriptionKeyAccess(Guid subscriptionId);
+        Task<IEnumerable<Subscription>?> GetAllSubcriptions();
     }
 }

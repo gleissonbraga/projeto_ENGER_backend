@@ -24,7 +24,7 @@ namespace ENGER.Infrastructure.Data.Mappings
             builder.Property(p => p.PaymentValue).HasColumnName("VL_PAGAMENTO").HasColumnType("decimal(18,2)");
 
             builder.HasOne(p => p.Construction).WithMany().HasForeignKey(p => p.ConstructionId);
-            builder.HasOne(p => p.PaymentType).WithMany().HasForeignKey(p => p.PaymentTypeId);
+            builder.HasOne(p => p.Construction).WithMany(c => c.Payments).HasForeignKey(p => p.ConstructionId);
         }
     }
 }

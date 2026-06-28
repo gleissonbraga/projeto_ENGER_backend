@@ -1,6 +1,7 @@
 ﻿using ENGER.Application.DTOs.Construction;
 using ENGER.Application.Exceptions;
 using ENGER.Application.UseCases.Construction.Create;
+using ENGER.Application.UseCases.Construction.CreatePayment;
 using ENGER.Application.UseCases.Construction.GetAll;
 using ENGER.Application.UseCases.Construction.GetById;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +16,16 @@ namespace ENGER.API.Controllers
         public readonly GetByIdConstructionUseCase _getByIdConstructionUseCase;
         public readonly GetAllConstructionsUseCase _getAllConstructionUseCase;
         public readonly UpdateConstructionUseCase _updateConstructionUseCase;
+        public readonly CreatePaymentUseCase _createPaymentConstructionUseCase;
 
-        public ConstructionController(CreateConstructionUseCase createBudgetUseCase, GetByIdConstructionUseCase getByIdConstructionUseCase, GetAllConstructionsUseCase getAllConstructionUseCase, UpdateConstructionUseCase updateConstructionUseCase)
+        public ConstructionController(CreateConstructionUseCase createBudgetUseCase, GetByIdConstructionUseCase getByIdConstructionUseCase, 
+            GetAllConstructionsUseCase getAllConstructionUseCase, UpdateConstructionUseCase updateConstructionUseCase, CreatePaymentUseCase createPaymentConstructionUseCase)
         {
             _createConstructionUseCase = createBudgetUseCase;
             _getByIdConstructionUseCase = getByIdConstructionUseCase;
             _getAllConstructionUseCase = getAllConstructionUseCase;
             _updateConstructionUseCase = updateConstructionUseCase;
+            _createPaymentConstructionUseCase = createPaymentConstructionUseCase;
         }
 
         [HttpPost("{keyBudget}/{companyId}")]
@@ -85,6 +89,24 @@ namespace ENGER.API.Controllers
             {
                 Domain.Entities.Construction objBudget = await _updateConstructionUseCase.ExecuteAsync(request, constructionId, companyId);
                 return Ok(objBudget);
+            }
+            catch (ApplicException err)
+            {
+                return BadRequest(new { errors = err.lstErrors });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Ocorreu um erro interno inesperado.", detail = ex.Message });
+            }
+        }
+
+        [HttpPut("pagamento/{constructionId}/{companyId}")]
+        public async Task<IActionResult> Payment([FromRoute] int constructionId, [FromRoute] int companyId, [FromBody] ConstructionPaymentDTO request)
+        {
+            try
+            {
+                Domain.Entities.ConstructionPayment objPayment = await _createPaymentConstructionUseCase.ExecuteAsync(constructionId, companyId, request);
+                return Ok(objPayment);
             }
             catch (ApplicException err)
             {
